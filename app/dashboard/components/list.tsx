@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, List, message } from "antd";
+import { Avatar, List, Tag, message } from "antd";
 import VirtualList from "rc-virtual-list";
 
 interface UserItem {
@@ -20,7 +20,7 @@ interface UserItem {
 
 const fakeDataUrl =
     "https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo";
-const ContainerHeight = 250;
+const ContainerHeight = 220;
 
 const Notice: React.FC = () => {
     const [data, setData] = useState<UserItem[]>([]);
@@ -39,7 +39,6 @@ const Notice: React.FC = () => {
     }, []);
 
     const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {
-        // Refer to: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight#problems_and_solutions
         if (
             Math.abs(
                 e.currentTarget.scrollHeight -
@@ -51,10 +50,21 @@ const Notice: React.FC = () => {
         }
     };
 
+    const renderTagByIndex = (index: number) => {
+        // Customize your tag based on the index or any other condition
+        if (index % 3 === 0) {
+            return <Tag color="green">Approved</Tag>;
+        } else if (index % 3 === 1) {
+            return <Tag color="red">Rejected</Tag>;
+        } else {
+            return <Tag color="orange">Pending</Tag>;
+        }
+    };
+
     return (
         <List
-            header={<div>Regulatory Complicance Approval Status</div>}
-            bordered
+            header={<div>Regulatory Compliance Approval Status</div>}
+            style={{ borderRadius: "1em" }}
         >
             <VirtualList
                 data={data}
@@ -64,10 +74,9 @@ const Notice: React.FC = () => {
                 onScroll={onScroll}
                 style={{ width: 350 }}
             >
-                {(item: UserItem) => (
+                {(item: UserItem, index: number) => (
                     <List.Item key={item.email}>
                         <List.Item.Meta
-                            
                             title={
                                 <a href="https://ant.design">
                                     {item.name.last}
@@ -75,7 +84,8 @@ const Notice: React.FC = () => {
                             }
                             description={item.email}
                         />
-                        <div>Content</div>
+                        {/* Render different tags based on the index */}
+                        {renderTagByIndex(index)}
                     </List.Item>
                 )}
             </VirtualList>

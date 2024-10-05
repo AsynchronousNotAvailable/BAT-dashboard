@@ -13,11 +13,13 @@ import {
     Typography,
     Carousel,
     Card,
+    Image,
 } from "antd";
 
 import UserCard from "./components/card";
 import Notice from "./components/list";
 import ThreadCard from "./components/forum";
+import { DashboardBarChart } from "./components/barchart";
 
 const { Title, Text } = Typography;
 
@@ -229,7 +231,7 @@ const Dashboard: React.FC = () => {
         <>
             <div
                 style={{
-                    padding: "36px",
+                    padding: "20px 36px",
                 }}
             >
                 <Title>Welcome Back, Admin!</Title>
@@ -251,23 +253,112 @@ const Dashboard: React.FC = () => {
                         }}
                     >
                         <Card title="Latest Trends" bordered={false}>
-                            Card content
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                }}
+                            >
+                                {/* Upper Flex Row: Image on the left, content on the right */}
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        marginBottom: "16px",
+                                    }}
+                                >
+                                    <div style={{ flex: "1 0 40%" }}>
+                                        <Image
+                                            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                                            alt="trend image"
+                                            style={{
+                                                width: "100%",
+                                                height: "auto",
+                                            }} // Ensures image scales responsively
+                                        />
+                                    </div>
+                                    <div
+                                        style={{
+                                            flex: "1 0 60%",
+                                            paddingLeft: "16px",
+                                        }}
+                                    >
+                                        <p
+                                            style={{
+                                                fontWeight: "bold",
+                                                fontSize: "20px",
+                                            }}
+                                        >
+                                            Card content goes here. This is the
+                                            right-hand side content.
+                                        </p>
+                                    </div>
+                                </div>
+                                {/* Lower Flex Row: Additional content below */}
+                                <div>
+                                    <p>
+                                        Additional content or text goes here in
+                                        the lower flex row.
+                                    </p>
+                                </div>
+                            </div>
                         </Card>
+
                         <Card title="Latest Trends" bordered={false}>
-                            Card content
-                        </Card>
-                        <Card title="Latest Trends" bordered={false}>
-                            Card content
-                        </Card>
-                        <Card title="Latest Trends" bordered={false}>
-                            Card content
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                }}
+                            >
+                                {/* Upper Flex Row: Image on the left, content on the right */}
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        marginBottom: "16px",
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            flex: "1 0 60%",
+                                            paddingLeft: "16px",
+                                        }}
+                                    >
+                                        <p
+                                            style={{
+                                                fontWeight: "bold",
+                                                fontSize: "20px",
+                                            }}
+                                        >
+                                            Card content goes here. This is the
+                                            right-hand side content.
+                                        </p>
+                                    </div>
+                                    <div style={{ flex: "1 0 40%" }}>
+                                        <Image
+                                            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                                            alt="trend image"
+                                            style={{
+                                                width: "100%",
+                                                height: "auto",
+                                            }} // Ensures image scales responsively
+                                        />
+                                    </div>
+                                </div>
+                                {/* Lower Flex Row: Additional content below */}
+                                <div>
+                                    <p>
+                                        Additional content or text goes here in
+                                        the lower flex row.
+                                    </p>
+                                </div>
+                            </div>
                         </Card>
                     </Carousel>
 
                     <UserCard />
                 </Flex>
             </div>
-            <div style={{ backgroundColor: "#EEF7FE", padding: "12px 36px" }}>
+            <div style={{ backgroundColor: "#EEF7FE", padding: "8px 36px" }}>
                 <Flex
                     vertical={false}
                     justify="space-between"
@@ -284,7 +375,8 @@ const Dashboard: React.FC = () => {
                             boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
                         }}
                     >
-                        <Column {...config4} height={300} width={500} />
+                        {/* <Column {...config4} height={300} width={500} /> */}
+                        <DashboardBarChart />
                     </Card>
                     <ThreadCard />
                 </Flex>

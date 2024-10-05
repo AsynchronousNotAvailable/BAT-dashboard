@@ -11,9 +11,11 @@ import {
     UserOutlined,
     HomeOutlined,
     MessageOutlined,
-    OrderedListOutlined
+    OrderedListOutlined,
+    AntCloudOutlined
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
+import { LogoIcon } from "./icon/applogo";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -34,10 +36,10 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-    getItem("Logo", "/dashboard", <HomeOutlined />),
+    getItem("Logo", "/zzz", <AntCloudOutlined />),
     getItem("Home", "/dashboard", <HomeOutlined />),
     getItem("Analytics", "/dashboard/analytics", <PieChartOutlined />),
-    getItem("Leaderboard", "/dashboard/leaderboard", <OrderedListOutlined />),
+    // getItem("Leaderboard", "/dashboard/leaderboard", <OrderedListOutlined />),
     getItem("Chat", "/dashboard/chat", <MessageOutlined />),
     getItem("Profile", "/dashboard/profile", <UserOutlined />),
 ];
