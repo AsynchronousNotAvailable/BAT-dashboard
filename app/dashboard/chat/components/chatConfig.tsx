@@ -37,7 +37,7 @@ const ChatConfig: React.FC<ChatConfigProps> = ({ config, setConfig }) => {
     return (
         <Flex
             vertical={true}
-            style={{ padding: "16px 24px", backgroundColor: "white" }}
+            style={{ padding: "16px 24px", backgroundColor: "white", width: "100%" }}
         >
             <Flex vertical={true} gap={5}>
                 <Text style={{ fontWeight: "bold", fontSize: "16px" }}>

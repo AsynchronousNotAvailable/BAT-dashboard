@@ -83,40 +83,52 @@ const AnalyticsPage: React.FC = () => {
 
     const productData = [
         {
-            productName: "Eco-Friendly Water Bottle",
-            price: "$25",
+            productName: "Mindfulness Journal",
+            price: "$20",
             usability:
-                "Durable and reusable for years with temperature insulation.",
-            sustainability:
-                "Made from 100% recycled materials, carbon-neutral manufacturing.",
-            
+                "Guided prompts to encourage daily reflection and gratitude.",
+            sustainability: "Made from recycled paper with eco-friendly ink.",
         },
         {
-            productName: "Biodegradable Phone Case",
-            price: "$40",
+            productName: "Aromatherapy Diffuser",
+            price: "$45",
             usability:
-                "Shock-resistant and provides strong protection for all phone models.",
+                "Creates a calming atmosphere with essential oils to reduce stress.",
             sustainability:
-                "Compostable after use, made with non-toxic, renewable resources.",
+                "Constructed from sustainably sourced wood and non-toxic materials.",
         },
         {
-            productName: "Solar-Powered Backpack",
-            price: "$120",
+            productName: "Brainwave Meditation Headset",
+            price: "$150",
             usability:
-                "Integrated solar panels for charging devices on the go.",
+                "Uses EEG technology to enhance meditation experiences through biofeedback.",
             sustainability:
-                "Crafted from recycled plastics and low-energy manufacturing process.",
+                "Designed with recyclable materials and energy-efficient components.",
         },
         {
-            productName: "Organic Cotton T-shirt",
-            price: "$30",
-            usability: "Soft, breathable fabric suitable for all-day comfort.",
+            productName: "Guided Meditation App Subscription",
+            price: "$10/month",
+            usability:
+                "Access to a library of guided meditations for stress relief and focus.",
             sustainability:
-                "Sustainably farmed cotton with eco-friendly dyes and water-saving production.",
+                "Digital product with no physical materials, reducing waste.",
+        },
+        {
+            productName: "Stress Relief Coloring Book",
+            price: "$15",
+            usability:
+                "Intricate designs to promote relaxation and creativity.",
+            sustainability: "Printed on recycled paper with soy-based inks.",
         },
     ];
 
-    const AISummary = ["Summary 1", "Summary 2", "Summary 3"];
+
+    const AISummary = [
+       "Recent studies show a 40% increase in the use of mindfulness apps among users looking to manage anxiety and stress, indicating a growing market for mental health tools.",
+       "Research highlights that sustainable products, such as eco-friendly wellness items, are gaining popularity, with consumers increasingly prioritizing both mental health benefits and environmental impact.",
+       "New findings suggest that brainwave entrainment technologies, like EEG devices, are becoming more mainstream, as they offer innovative ways to enhance meditation practices and improve focus.",
+   ];
+
 
     // Get an array of products that have already been selected
     const selectedValues = Object.values(selectedProducts);
@@ -328,7 +340,7 @@ const AnalyticsPage: React.FC = () => {
                                     style={{
                                         padding: "10px",
                                         background:
-                                            "linear-gradient(90deg, #4F46E5, rgba(79, 70, 229, 0))",
+                                            "linear-gradient(90deg, #4F46E5, rgba(79, 70, 229, 0.4))",
                                         borderColor: "#4338CA",
                                         borderWidth: "2px",
                                         borderRadius: "20px",
@@ -336,8 +348,12 @@ const AnalyticsPage: React.FC = () => {
                                     }}
                                 >
                                     <AIIcon style={{ margin: "10px" }} />
-                                    <Text style={{ color: "white" }}>
-                                        AI Summary
+                                    <Text
+                                        style={{
+                                            color: "white",
+                                        }}
+                                    >
+                                        {AISummary[aspectIndex]}
                                     </Text>
                                 </Flex>
                                 <Divider />

@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { Column } from "@ant-design/plots";
+import Image from "next/image";
 import {
   
 } from "@ant-design/icons";
@@ -13,7 +14,7 @@ import {
     Typography,
     Carousel,
     Card,
-    Image,
+    // Image,
 } from "antd";
 
 import UserCard from "./components/card";
@@ -241,14 +242,22 @@ const Dashboard: React.FC = () => {
                     align="center"
                     gap={10}
                 >
-                    <Notice />
+                    <div
+                        style={{
+                            boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
+                            padding: "20px",
+                            
+                        }}
+                    >
+                        <Notice />
+                    </div>
 
                     <Carousel
                         autoplay
                         style={{
                             maxWidth: "500px",
                             height: "300px",
-
+                            
                             boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
                         }}
                     >
@@ -256,67 +265,37 @@ const Dashboard: React.FC = () => {
                             <div
                                 style={{
                                     display: "flex",
-                                    flexDirection: "column",
+                                    flexDirection: "row",
+                                    justifyContent: "center",
+                                    maxHeight: "200px",
+                                    
                                 }}
                             >
-                                {/* Upper Flex Row: Image on the left, content on the right */}
                                 <div
                                     style={{
                                         display: "flex",
+                                        flexDirection: "row",
                                         marginBottom: "16px",
                                     }}
                                 >
-                                    <div style={{ flex: "1 0 40%" }}>
-                                        <Image
-                                            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                                            alt="trend image"
-                                            style={{
-                                                width: "100%",
-                                                height: "auto",
-                                            }} // Ensures image scales responsively
-                                        />
-                                    </div>
                                     <div
                                         style={{
-                                            flex: "1 0 60%",
-                                            paddingLeft: "16px",
-                                        }}
-                                    >
-                                        <p
-                                            style={{
-                                                fontWeight: "bold",
-                                                fontSize: "20px",
-                                            }}
-                                        >
-                                            Card content goes here. This is the
-                                            right-hand side content.
-                                        </p>
-                                    </div>
-                                </div>
-                                {/* Lower Flex Row: Additional content below */}
-                                <div>
-                                    <p>
-                                        Additional content or text goes here in
-                                        the lower flex row.
-                                    </p>
-                                </div>
-                            </div>
-                        </Card>
+                                            display: "flex",
 
-                        <Card title="Latest Trends" bordered={false}>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                }}
-                            >
-                                {/* Upper Flex Row: Image on the left, content on the right */}
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        marginBottom: "16px",
-                                    }}
-                                >
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        <Image
+                                            src="/mindsync.png"
+                                            alt="trend image"
+                                            width={200}
+                                            height={200}
+                                            style={{
+                                                width: "100%",
+                                                height: "auto",
+                                            }}
+                                        />
+                                    </div>
                                     <div
                                         style={{
                                             flex: "1 0 60%",
@@ -329,27 +308,17 @@ const Dashboard: React.FC = () => {
                                                 fontSize: "20px",
                                             }}
                                         >
-                                            Card content goes here. This is the
-                                            right-hand side content.
+                                            Wearable Tech: MindSync Launches New
+                                            Stress-Reduction Feature
+                                        </p>
+                                        <p>
+                                            MindSync's latest brainwave headset
+                                            update introduces a real-time stress
+                                            monitoring feature.It aims to help
+                                            users regulate stress levels through
+                                            guided breathing exercises.
                                         </p>
                                     </div>
-                                    <div style={{ flex: "1 0 40%" }}>
-                                        <Image
-                                            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                                            alt="trend image"
-                                            style={{
-                                                width: "100%",
-                                                height: "auto",
-                                            }} // Ensures image scales responsively
-                                        />
-                                    </div>
-                                </div>
-                                {/* Lower Flex Row: Additional content below */}
-                                <div>
-                                    <p>
-                                        Additional content or text goes here in
-                                        the lower flex row.
-                                    </p>
                                 </div>
                             </div>
                         </Card>

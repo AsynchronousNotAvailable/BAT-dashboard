@@ -4,10 +4,22 @@ import { Flex, Select, Tag } from "antd";
 const MultipleSelectComponent: React.FC = () => {
     // Define the available options
     const options = [
-        { label: "Option 1", value: "option1", color: "red" },
-        { label: "Option 2", value: "option2", color: "green" },
-        { label: "Option 3", value: "option3", color: "blue" },
-        { label: "Option 4", value: "option4", color: "orange" },
+        {
+            label: "Universal Search",
+            value: "Universal Search",
+            color: "red",
+        },
+        { label: "Knowledge Base", value: "Knowledge Base", color: "green" },
+        {
+            label: "Sentiment Analysis",
+            value: "Sentiment Analysis",
+            color: "blue",
+        },
+        {
+            label: "Feedback Collection",
+            value: "Feedback Collection",
+            color: "orange",
+        },
     ];
 
     // State to track selected items
@@ -26,7 +38,7 @@ const MultipleSelectComponent: React.FC = () => {
 
     return (
         <Flex vertical={true} gap={5} style={{}}>
-            <h3>Multi-select Dropdown</h3>
+            <h3>Tools</h3>
 
             {/* Multi-select dropdown */}
             <Select
@@ -42,7 +54,7 @@ const MultipleSelectComponent: React.FC = () => {
 
             {/* Selected items box */}
             <div style={{ marginTop: "10px" }}>
-                <h4>Selected Items:</h4>
+                
                 <div
                     style={{
                         display: "flex",

@@ -1,5 +1,5 @@
 // App.tsx
-"use client"
+"use client";
 import React, { useState } from "react";
 import { Layout } from "antd";
 import Sidebar from "./components/chatSidebar";
@@ -27,15 +27,31 @@ const Chat: React.FC = () => {
     ]);
 
     const [currentChat, setCurrentChat] = useState(0);
-    const botReplies = ["I'm sorry, I don't understand.", "Can you rephrase that?", "I'm not sure what you mean."];
+    const [currentReplyIndex, setCurrentReplyIndex] = useState(0);
+    // "What are the latest mental health products we should consider adding to our lineup?",
+    // "How can we improve our existing offerings to better support mental well-being?",
+    // "What insights do we have from competitor analysis on mental health trends?",
+    const botReplies = [
+        "According to recent market analysis, products like mindfulness apps and wearable stress trackers have seen a 30% increase in consumer interest over the past year. We should consider adding similar offerings.",
+        "Surveys indicate that 65% of consumers prefer products made from eco-friendly materials. Integrating sustainable materials while enhancing user-friendly technology could significantly increase customer satisfaction.",
+        "Competitors are focusing heavily on brainwave modulation devices, which have grown in popularity by 25%. Additionally, subscription services for guided meditation have become a key trend, capturing 40% of the market.",
+    ];
+
     const sendMessage = (message: string) => {
         const newChats = [...chats];
         newChats[currentChat].messages.push({ sender: "user", text: message });
-        // Simulate a bot reply
+
+        // Ensure the bot reply follows the sequence
+        const botReply = botReplies[currentReplyIndex];
         newChats[currentChat].messages.push({
             sender: "bot",
-            text: `${botReplies[Math.floor(Math.random() * botReplies.length)]}`,
+            text: botReply,
         });
+
+        // Update the reply index for the next message
+        setCurrentReplyIndex(
+            (prevIndex) => (prevIndex + 1) % botReplies.length
+        );
         setChats(newChats);
     };
 
@@ -52,6 +68,7 @@ const Chat: React.FC = () => {
             },
         ]);
         setCurrentChat(chats.length);
+        setCurrentReplyIndex(0); // Reset the reply index for the new chat
     };
 
     const setChatConfig = (config: Chat["config"]) => {
@@ -64,7 +81,7 @@ const Chat: React.FC = () => {
         const newChats = [...chats];
         newChats.splice(index, 1);
         setChats(newChats);
-    }
+    };
 
     return (
         <Layout style={{ height: "100vh" }}>

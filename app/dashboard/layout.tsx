@@ -36,13 +36,14 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-    getItem("Logo", "/zzz", <AntCloudOutlined />),
+    
     getItem("Home", "/dashboard", <HomeOutlined />),
     getItem("Analytics", "/dashboard/analytics", <PieChartOutlined />),
     // getItem("Leaderboard", "/dashboard/leaderboard", <OrderedListOutlined />),
     getItem("Chat", "/dashboard/chat", <MessageOutlined />),
     getItem("Profile", "/dashboard/profile", <UserOutlined />),
 ];
+
 
 const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({
     children,
@@ -71,9 +72,17 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({
                 collapsed={collapsed}
                 onCollapse={(value) => setCollapsed(value)}
                 theme="light"
-                style={{borderRight: "1px solid #f0f0f0"}}
+                style={{ borderRight: "1px solid #f0f0f0" }}
             >
                 <div className="demo-logo-vertical" />
+                <div style={{padding: "20px"}}>
+                    <img
+                        src="/mindsync.png"
+                        alt="MindSync Logo"
+                        style={{ width: "100px", height: "auto" }}
+                    />
+                </div>
+
                 <Menu
                     theme="light"
                     defaultSelectedKeys={[defaultSelectedKey.toString()]}

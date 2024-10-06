@@ -24,14 +24,18 @@ const ThreadCard: React.FC = () => {
         {
             id: 1,
             user: "Jane Smith",
-            content: "I totally agree! It's very smooth.",
+            content:
+                "I noticed our new mindfulness features are really gaining traction. Competitors are also enhancing their offerings in this area.",
         },
         {
             id: 2,
             user: "Bob Johnson",
-            content: "It’s like a breath of fresh air compared to other apps.",
+            content:
+                "I've seen that many competitors are focusing on AI-driven personalization. We should consider integrating similar features to enhance user experience.",
         },
+        
     ]);
+
     const [newReply, setNewReply] = useState("");
 
     // Handle submitting a new reply
@@ -68,8 +72,14 @@ const ThreadCard: React.FC = () => {
 
             {/* Post Content */}
             <Paragraph style={{ marginTop: "10px" }}>
-                Just tried out the new Threads app, and I'm loving the clean
-                interface. What do you all think? #Meta #Threads
+                What recent updates have you noticed in our product line or from
+                competitors that align with these trends? Let’s discuss how we
+                can leverage these insights to enhance our offerings!
+                <span style={{ color: "#B100B1" }}>
+                    {" "}
+                    #WellbeingTrends #MentalHealthInnovation
+                </span>
+          
             </Paragraph>
 
             {/* Divider */}
