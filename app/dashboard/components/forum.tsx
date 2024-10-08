@@ -8,6 +8,7 @@ import {
     Button,
     Input,
     List,
+    Flex,
 } from "antd";
 import {
     LikeOutlined,
@@ -122,7 +123,7 @@ const ThreadCard: React.FC = () => {
             <Divider style={{ margin: "10px 0" }} />
 
             {/* Input Bar for New Reply */}
-            <Space style={{ width: "100%" }} direction="vertical">
+            <Flex vertical={false} style={{ width: "100%", justifyContent: "space-between", alignContent: "center" }} gap={5} >
                 <TextArea
                     value={newReply}
                     onChange={(e) => setNewReply(e.target.value)}
@@ -132,15 +133,15 @@ const ThreadCard: React.FC = () => {
                 />
                 <Button
                     type="primary"
-                    shape="round"
+                    
                     icon={<SendOutlined />}
                     onClick={handleAddReply}
                     disabled={!newReply.trim()}
-                    style={{ alignSelf: "flex-end" }}
-                >
-                    Reply
-                </Button>
-            </Space>
+                    style={{ alignSelf: "flex-end", borderRadius: "100%" }}
+                />
+                
+                
+            </Flex>
         </Card>
     );
 };

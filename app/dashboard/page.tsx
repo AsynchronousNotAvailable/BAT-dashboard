@@ -21,6 +21,8 @@ import UserCard from "./components/card";
 import Notice from "./components/list";
 import ThreadCard from "./components/forum";
 import { DashboardBarChart } from "./components/barchart";
+import ProgressBar from "./components/progress";
+import SustainabilityIndex from "./components/progress";
 
 const { Title, Text } = Typography;
 
@@ -235,7 +237,26 @@ const Dashboard: React.FC = () => {
                     padding: "20px 36px",
                 }}
             >
-                <Title>Welcome Back, Admin!</Title>
+                <Flex vertical={false} justify="space-between" align="center">
+                    <div
+                        style={{
+                            fontWeight: "bold",
+                            fontSize: "22px",
+                            background:
+                                "linear-gradient(90deg, #42004B, #B100B1)",
+                            WebkitBackgroundClip: "text",
+                            WebkitTextFillColor: "transparent",
+                        }}
+                    >
+                        <Title>Welcome Back, Admin!</Title>
+                        <p style={{ fontStyle: "italic", fontWeight: "lighter",  }}>
+                            Energy Efficiency up by 20%. Small changes today,
+                            lasting impact tomorrow!
+                        </p>
+                    </div>
+                    <SustainabilityIndex />
+                </Flex>
+
                 <Flex
                     vertical={false}
                     justify="space-between"
@@ -246,7 +267,6 @@ const Dashboard: React.FC = () => {
                         style={{
                             boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
                             padding: "20px",
-                            
                         }}
                     >
                         <Notice />
@@ -257,7 +277,7 @@ const Dashboard: React.FC = () => {
                         style={{
                             maxWidth: "500px",
                             height: "300px",
-                            
+
                             boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
                         }}
                     >
@@ -268,7 +288,6 @@ const Dashboard: React.FC = () => {
                                     flexDirection: "row",
                                     justifyContent: "center",
                                     maxHeight: "200px",
-                                    
                                 }}
                             >
                                 <div
@@ -337,14 +356,16 @@ const Dashboard: React.FC = () => {
                     <Card
                         style={{
                             // width: 400,
-
+                            height: 450,
                             margin: "20px",
                             borderRadius: "10px",
-                            // padding: "40px",
+                            // padding: "40px",\
+                            padding: 0,
+                            
                             boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
                         }}
                     >
-                        {/* <Column {...config4} height={300} width={500} /> */}
+                       
                         <DashboardBarChart />
                     </Card>
                     <ThreadCard />

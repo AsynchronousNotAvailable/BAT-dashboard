@@ -115,7 +115,7 @@ const UserCard: React.FC = () => {
                             color: "#475569",
                         }}
                     >
-                        Average Wellness Score
+                        Average Sustainability Index
                     </Text>
                     <Flex
                         vertical={false}
