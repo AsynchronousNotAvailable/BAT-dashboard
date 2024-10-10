@@ -21,7 +21,7 @@ const AnalyticsPage: React.FC = () => {
     const [showAnalysisTable, setShowAnalysisTable] = useState(false);
 
     // Aspects to compare
-    const aspects = ["Comfort", "Brainwave Analysis", "Health Monitoring", "Sustainability"];
+    const aspects = ["Comfort", "Health Monitoring", "Sustainability"];
 
     // Function to add a new product column for comparison
     const addProductColumn = () => {
