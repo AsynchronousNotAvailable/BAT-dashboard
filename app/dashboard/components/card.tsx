@@ -1,156 +1,100 @@
-import { Card, Space, Typography, Flex } from "antd";
+import React from "react";
+import { Card, Space, Typography, Row, Col } from "antd";
 import {
     RiseOutlined,
     EyeOutlined,
     FallOutlined,
     BulbOutlined,
     ThunderboltOutlined,
+    UserOutlined,
 } from "@ant-design/icons";
+
 const UserCard: React.FC = () => {
     const { Title, Text } = Typography;
 
     return (
         <Card
-            bordered={true}
+            bordered={false}
             style={{
-                borderRadius: "1em",
-                width: 300,
-                height: "min-content",
-                flexShrink: 0.1,
-                
+                borderRadius: "none",
+                padding: "0px", // Remove padding for a compact design
+                width: "100%", // Full width for responsiveness
+                backgroundColor: "transparent", // Remove the card background
+                boxShadow: "none", // Remove box shadow
             }}
         >
-            <Flex vertical={true} style={{}} gap={16}>
-                <Flex vertical={true}>
-                    <Text
-                        style={{
-                            fontWeight: "normal",
-                            fontSize: "1.2em",
-                            color: "#475569",
-                        }}
-                    >
-                        Total Users
-                    </Text>
-                    <Flex
-                        vertical={false}
-                        gap={50}
-                        align="baseline"
-                        justify="space-between"
-                    >
-                        <Flex vertical={false} gap={30}>
-                            <Space align="baseline" size={10}>
-                                <Title level={3}>4818</Title>
-                                {/* icon */}
-                                <RiseOutlined
+            <Space direction="vertical" size={15} style={{ width: "100%" }}>
+                {/* Total Users */}
+                <Space direction="vertical" size={2} style={{ width: "100%" }}>
+                    <Text style={{ fontSize: "1.2em", color: "#475569" }}>Total Users</Text>
+                    <Row align="middle" justify="space-between">
+                        <Col>
+                            <Space align="baseline" size={6}>
+                                <EyeOutlined
                                     style={{
-                                        color: "#22C55E",
-                                        fontWeight: "bold",
+                                        color: "#4F46E5",
+                                        fontSize: "18px",
+                                        backgroundColor: "#EEF2FF",
+                                        padding: "6px",
+                                        borderRadius: "50%",
                                     }}
                                 />
-                                <Text style={{ color: "#22C55E" }}>44.2%</Text>
+                                <Title level={5} style={{ margin: 0 }}>4,818</Title>
+                                <RiseOutlined style={{ color: "#22C55E", fontSize: "16px" }} />
+                                <Text style={{ color: "#22C55E", fontSize: "1.0em" }}>44.2%</Text>
                             </Space>
-                        </Flex>
-                        <EyeOutlined
-                            style={{
-                                color: "rgba(79,70,229,1)",
-                                fontSize: "1.2em",
-                                backgroundColor: "rgba(238,242,255,1)",
-                                padding: "10px", // Adjust the padding to make the background bigger
-                                borderRadius: "50%", // This makes the background circular
-                            }}
-                        />
-                    </Flex>
-                </Flex>
-                <Flex vertical={true}>
-                    <Text
-                        style={{
-                            fontWeight: "normal",
-                            fontSize: "1.2em",
-                            color: "#475569",
-                        }}
-                    >
-                        Average Use Time
-                    </Text>
-                    <Flex
-                        vertical={false}
-                        gap={50}
-                        align="baseline"
-                        justify="space-between"
-                    >
-                        <Flex vertical={false} gap={30}>
-                            <Space align="baseline" size={10}>
-                                <Title level={3}>118, 818</Title>
-                                {/* icon */}
-                                <FallOutlined
+                        </Col>
+                    </Row>
+                </Space>
+
+                {/* Average Use Time */}
+                <Space direction="vertical" size={2} style={{ width: "100%" }}>
+                    <Text style={{ fontSize: "1.2em", color: "#475569" }}>Average Use Time</Text>
+                    <Row align="middle" justify="space-between">
+                        <Col>
+                            <Space align="baseline" size={6}>
+                                <BulbOutlined
                                     style={{
-                                        color: "red",
-                                        fontWeight: "bold",
+                                        color: "#F59E0B", // New vibrant color
+                                        fontSize: "18px",
+                                        backgroundColor: "#FFF7E6",
+                                        padding: "6px",
+                                        borderRadius: "50%",
                                     }}
                                 />
-                                <Text
-                                    style={{
-                                        color: "red",
-                                    }}
-                                >
-                                    2.8%
-                                </Text>
+                                <Title level={5} style={{ margin: 0 }}>118,818</Title>
+                                <FallOutlined style={{ color: "red", fontSize: "16px" }} />
+                                <Text style={{ color: "red", fontSize: "1.0em" }}>2.8%</Text>
                             </Space>
-                        </Flex>
-                        <BulbOutlined
-                            style={{
-                                color: "rgba(79,70,229,1)",
-                                fontSize: "1.2em",
-                                backgroundColor: "rgba(238,242,255,1)",
-                                padding: "10px", // Adjust the padding to make the background bigger
-                                borderRadius: "50%", // This makes the background circular
-                            }}
-                        />
-                    </Flex>
-                </Flex>
-                <Flex vertical={true}>
-                    <Text
-                        style={{
-                            fontWeight: "normal",
-                            fontSize: "1.2em",
-                            color: "#475569",
-                        }}
-                    >
-                        Average Sustainability Index
-                    </Text>
-                    <Flex
-                        vertical={false}
-                        gap={50}
-                        align="baseline"
-                        justify="space-between"
-                    >
-                        <Flex vertical={false} gap={30}>
-                            <Space align="baseline" size={10}>
-                                <Title level={3}>12,158</Title>
-                                <RiseOutlined style={{ color: "#22C55E" }} />
-                                <Text
+                        </Col>
+                    </Row>
+                </Space>
+
+                {/* Average Sustainability Index */}
+                <Space direction="vertical" size={2} style={{ width: "100%" }}>
+                    <Text style={{ fontSize: "1.2em", color: "#475569" }}>Average Sustainability Index</Text>
+                    <Row align="middle" justify="space-between">
+                        <Col>
+                            <Space align="baseline" size={6}>
+                                <ThunderboltOutlined
                                     style={{
-                                        color: "#22C55E",
+                                        color: "#FF4D4F", // New vibrant color
+                                        fontSize: "18px",
+                                        backgroundColor: "#FFF1F0",
+                                        padding: "6px",
+                                        borderRadius: "50%",
                                     }}
-                                >
-                                    8%
-                                </Text>
+                                />
+                                <Title level={5} style={{ margin: 0 }}>12,158</Title>
+                                <RiseOutlined style={{ color: "#22C55E", fontSize: "16px" }} />
+                                <Text style={{ color: "#22C55E", fontSize: "1.0em" }}>8%</Text>
                             </Space>
-                        </Flex>
-                        <ThunderboltOutlined
-                            style={{
-                                color: "rgba(79,70,229,1)",
-                                fontSize: "1.2em",
-                                backgroundColor: "rgba(238,242,255,1)",
-                                padding: "10px", // Adjust the padding to make the background bigger
-                                borderRadius: "50%", // This makes the background circular
-                            }}
-                        />
-                    </Flex>
-                </Flex>
-            </Flex>
+                        </Col>
+                    </Row>
+                </Space>
+            </Space>
         </Card>
     );
-
-}
+};
 
 export default UserCard;
