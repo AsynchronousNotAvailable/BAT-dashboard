@@ -1,379 +1,103 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import { Column } from "@ant-design/plots";
+import React, { useEffect, useRef } from "react";
+import { Button, Card, Col, Row, Typography, Carousel, Layout, Progress } from "antd";
 import Image from "next/image";
-import {
-  
-} from "@ant-design/icons";
-
-import {
-    Breadcrumb,
-    Flex,
-    Layout,
-    theme,
-    Typography,
-    Carousel,
-    Card,
-    // Image,
-} from "antd";
-
+import { DashboardBarChart } from "./components/barchart";
 import UserCard from "./components/card";
 import Notice from "./components/list";
 import ThreadCard from "./components/forum";
-import { DashboardBarChart } from "./components/barchart";
+import ProductDevelopmentTimeline from "./components/productDevTimeline";
 import ProgressBar from "./components/progress";
+import AIProductInsightsCard from "./chat/components/aiProductInsight";
 import SustainabilityIndex from "./components/progress";
 
 const { Title, Text } = Typography;
+const { Content } = Layout;
 
 const Dashboard: React.FC = () => {
-    
-    const chartRef: any = useRef();
-    
-    const {
-        token: { colorBgContainer, borderRadiusLG },
-    } = theme.useToken();
+  const chartRef: any = useRef();
 
-    const config = {
-        data: [
-            { year: "1991", value: 15468 },
-            { year: "1992", value: 16100 },
-            { year: "1993", value: 15900 },
-            { year: "1994", value: 17409 },
-            { year: "1995", value: 17000 },
-            { year: "1996", value: 31056 },
-            { year: "1997", value: 31982 },
-            { year: "1998", value: 32040 },
-            { year: "1999", value: 33233 },
-        ],
-        xField: "year",
-        yField: "value",
-        shapeField: "smooth",
-        height: 300,
-        label: {
-            text: "value",
-            style: {
-                fontSize: 10,
-                textAlign: (_: any, idx: any, arr: any) => {
-                    if (idx === 0) return "left";
-                    if (idx === arr.length - 1) return "right";
-                    return "center";
-                },
-            },
-        },
-        style: {
-            opacity: 0.4,
-            
-        },
-        axis: {
-            y: { labelFormatter: "~s" },
-        },
-        line: {},
-    };
+  useEffect(() => {
+    console.log({ chartRef });
+    if (chartRef.current) {
+      // Additional setup logic if required
+    }
+  }, []);
 
-    const config2 = {
-        data: [
-            { year: "1", mental_health_score: 20 },
-            { year: "2", mental_health_score: 40 },
-            { year: "3", mental_health_score: 60 },
-            { year: "4", mental_health_score: 80 },
-            { year: "5", mental_health_score: 90 },
-            { year: "6", mental_health_score: 105 },
-            { year: "7", mental_health_score: 110 },
-            { year: "8", mental_health_score: 200 },
-            { year: "9", mental_health_score: 300 },
-        ],
-        xField: "year",
-        yField: "mental_health_score",
-        slider: {
-            x: {
-                values: [0.6, 1],
-            },
-        },
-    };
-
-    const config3 = {
-        data: {
-            type: "fetch",
-            value: "https://render.alipay.com/p/yuyan/180020010001215413/antd-charts/column-column.json",
-        },
-        xField: "letter",
-        yField: "frequency",
-        label: {
-            text: (d: any) => `${(d.frequency * 100).toFixed(1)}%`,
-            textBaseline: "bottom",
-        },
-        axis: {
-            y: {
-                labelFormatter: ".0%",
-            },
-        },
-        style: {
-            // 圆角样式
-            radiusTopLeft: 10,
-            radiusTopRight: 10,
-        },
-    };
-
-    const data4 = [
-        {
-            product_type: "Treatment",
-            company: "Skibidi",
-            order_amt: 8,
-            product_sub_type: "Supplement",
-        },
-        {
-            product_type: "Treatment",
-            company: "MentalGo",
-            order_amt: 10,
-            product_sub_type: "Health",
-        },
-        {
-            product_type: "Supplementary Device",
-            company: "Skibidi",
-            order_amt: 20,
-            product_sub_type: "Supplement",
-        },
-        {
-            product_type: "Supplementary Device",
-            company: "MentalGo",
-            order_amt: 13,
-            product_sub_type: "Health",
-        },
-        {
-            product_type: "Treatment",
-            company: "MentalGo",
-            order_amt: 21,
-            product_sub_type: "Health",
-        },
-        {
-            product_type: "Treatment",
-            company: "MentalGo",
-            order_amt: 21,
-            product_sub_type: "Health",
-        },
-    ];
-
-    const config4 = {
-        data: {
-            value: data4,
-        },
-        xField: "product_type",
-        yField: "order_amt",
-        radius: 10,
-        seriesField: "company",
-        stack: {
-            groupBy: ["x", "series"],
-            series: false,
-        },
-        colorField: "product_sub_type",
-        tooltip: (item: any) => {
-            return { origin: item };
-        },
-        interaction: {
-            tooltip: {
-                render: (e: any, { title, items }: any) => {
-                    return (
-                        <div>
-                            <h4>{title}</h4>
-                            {items.map((item: any) => {
-                                const { name, color, origin } = item;
-                                return (
-                                    <div>
-                                        <div
-                                            style={{
-                                                margin: 0,
-                                                display: "flex",
-                                                justifyContent: "space-between",
-                                            }}
-                                        >
-                                            <div>
-                                                <span
-                                                    style={{
-                                                        display: "inline-block",
-                                                        width: 6,
-                                                        height: 6,
-                                                        borderRadius: "50%",
-                                                        backgroundColor: color,
-                                                        marginRight: 6,
-                                                    }}
-                                                ></span>
-                                                <span>
-                                                    {origin["product_sub_type"]}
-                                                    -{name}
-                                                </span>
-                                            </div>
-                                            <b>{origin["order_amt"]}</b>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    );
-                },
-            },
-        },
-    };
-
-    const contentStyle: React.CSSProperties = {
-        height: "160px",
-        color: "#fff",
-        lineHeight: "160px",
-        textAlign: "center",
-        background: "#364d79",
-    };
-
-    
-    useEffect(() => {
-        console.log({ chartRef });
-        if (chartRef.current) {
-        }
-    }, [])
-
-    return (
-        <>
-            <div
-                style={{
-                    padding: "20px 36px",
-                }}
-            >
-                <Flex vertical={false} justify="space-between" align="center">
-                    <div
-                        style={{
-                            fontWeight: "bold",
-                            fontSize: "22px",
-                            background:
-                                "linear-gradient(90deg, #42004B, #B100B1)",
-                            WebkitBackgroundClip: "text",
-                            WebkitTextFillColor: "transparent",
-                        }}
-                    >
-                        <Title>Welcome Back, Admin!</Title>
-                        <p style={{ fontStyle: "italic", fontWeight: "lighter",  }}>
-                            Energy Efficiency up by 20%. Small changes today,
-                            lasting impact tomorrow!
-                        </p>
-                    </div>
-                    <SustainabilityIndex />
-                </Flex>
-
-                <Flex
-                    vertical={false}
-                    justify="space-between"
-                    align="center"
-                    gap={10}
+  return (
+    <Layout style={{ padding: "24px" }}>
+      <Content style={{ backgroundColor: "#f0f2f5" }}>
+        <div style={{ marginBottom: "24px" }}>
+          {/* Welcome Banner */}
+          <Card style={{ borderRadius: "10px" }}>
+            <Row align="middle" justify="space-between">
+              <Col span={16}>
+                <Title
+                  level={2}
+                  style={{
+                    fontWeight: "bold",
+                    background: "linear-gradient(90deg, #42004B, #B100B1)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }}
                 >
-                    <div
-                        style={{
-                            boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-                            padding: "20px",
-                        }}
-                    >
-                        <Notice />
-                    </div>
+                  Welcome Back, Admin! Let's drive innovation in mental wellbeing today.
+                </Title>
+                <Text style={{ fontStyle: "italic" }}>
+                  Energy Efficiency up by 20%. Small changes today, lasting impact tomorrow!
+                </Text>
+              </Col>
+              <Col span={8}>
+                <SustainabilityIndex />
+              </Col>
+            </Row>
+          </Card>
+        </div>
 
-                    <Carousel
-                        autoplay
-                        style={{
-                            maxWidth: "500px",
-                            height: "300px",
+        <Row gutter={16} style={{ marginBottom: "24px" }}>
+          {/* Regulatory Compliance and AI Product Insights */}
+          <Col span={6}>
+            <Card title="Regulatory Compliance Approval Status" bordered={false}>
+              <Notice />
+            </Card>
+          </Col>
+          <Col span={18}>
+          <Row gutter={[18, 18]} style={{ marginBottom: "24px" }}>
+  <Col span={18}>
+    <ProductDevelopmentTimeline />
+  </Col>
+</Row>
 
-                            boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-                        }}
-                    >
-                        <Card title="Latest Trends" bordered={false}>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    justifyContent: "center",
-                                    maxHeight: "200px",
-                                }}
-                            >
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        marginBottom: "16px",
-                                    }}
-                                >
-                                    <div
-                                        style={{
-                                            display: "flex",
+          </Col>
+          <Col span={4}>
+            <UserCard />
+          </Col>
+        </Row>
 
-                                            alignItems: "center",
-                                        }}
-                                    >
-                                        <Image
-                                            src="/mindsync.png"
-                                            alt="trend image"
-                                            width={200}
-                                            height={200}
-                                            style={{
-                                                width: "100%",
-                                                height: "auto",
-                                            }}
-                                        />
-                                    </div>
-                                    <div
-                                        style={{
-                                            flex: "1 0 60%",
-                                            paddingLeft: "16px",
-                                        }}
-                                    >
-                                        <p
-                                            style={{
-                                                fontWeight: "bold",
-                                                fontSize: "20px",
-                                            }}
-                                        >
-                                            Wearable Tech: MindSync Launches New
-                                            Stress-Reduction Feature
-                                        </p>
-                                        <p>
-                                            MindSync's latest brainwave headset
-                                            update introduces a real-time stress
-                                            monitoring feature.It aims to help
-                                            users regulate stress levels through
-                                            guided breathing exercises.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </Card>
-                    </Carousel>
 
-                    <UserCard />
-                </Flex>
-            </div>
-            <div style={{ backgroundColor: "#EEF7FE", padding: "8px 36px" }}>
-                <Flex
-                    vertical={false}
-                    justify="space-between"
-                    // style={{ maxWidth: "fit-content" }}
-                    gap={10}
-                >
-                    <Card
-                        style={{
-                            // width: 400,
-                            height: 450,
-                            margin: "20px",
-                            borderRadius: "10px",
-                            // padding: "40px",\
-                            padding: 0,
-                            
-                            boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-                        }}
-                    >
-                       
-                        <DashboardBarChart />
-                    </Card>
-                    <ThreadCard />
-                </Flex>
-            </div>
-        </>
-    );
+
+        <Row gutter={16} style={{ marginBottom: "24px" }}>
+          {/* SEO Analysis and Competitive Analysis */}
+          <Col span={12}>
+            <Card title="Competitive Product Analysis" bordered={false}>
+              <DashboardBarChart />
+            </Card>
+          </Col>
+          <Col span={12}>
+            <ThreadCard />
+          </Col>
+        </Row>
+
+
+        <Row gutter={16}>
+          {/* Product Timeline & Updates */}
+          <Col span={24}>
+
+          </Col>
+        </Row>
+      </Content>
+    </Layout>
+  );
 };
 
 export default Dashboard;
-

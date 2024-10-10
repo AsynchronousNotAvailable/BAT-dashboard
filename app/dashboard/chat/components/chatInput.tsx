@@ -1,7 +1,7 @@
-// ChatInput.tsx
 import React, { useState } from "react";
-import { Input, Button, Flex, Card, Typography } from "antd";
-import {SendOutlined, PaperClipOutlined} from "@ant-design/icons";
+import { Input, Button, Flex, Typography } from "antd";
+import { SendOutlined, PaperClipOutlined } from "@ant-design/icons";
+
 interface ChatInputProps {
     sendMessage: (message: string) => void;
 }
@@ -9,6 +9,7 @@ interface ChatInputProps {
 const ChatInput: React.FC<ChatInputProps> = ({ sendMessage }) => {
     const [input, setInput] = useState("");
     const { Text } = Typography;
+
     const handleSend = () => {
         if (input.trim()) {
             sendMessage(input);
@@ -20,7 +21,6 @@ const ChatInput: React.FC<ChatInputProps> = ({ sendMessage }) => {
         <div
             style={{
                 display: "flex",
-
                 border: "1px solid #f0f0f0",
                 padding: "10px",
             }}
@@ -30,45 +30,57 @@ const ChatInput: React.FC<ChatInputProps> = ({ sendMessage }) => {
                     <Button
                         style={{
                             boxShadow: "0 0 10px 0 #A5B4FC",
-                            borderRadius: "25px 25px",
+                            borderRadius: "25px",
                             padding: "4px 10px",
                             margin: "0 10px",
-                            marginTop: 0,
                             maxHeight: "fit-content",
                         }}
+                        onClick={() =>
+                            sendMessage(
+                                "Can you validate the latest product idea for mental wellness using AI insights?"
+                            )
+                        }
                     >
                         <Text style={{ fontSize: "12px", fontWeight: "bold" }}>
-                            Give me the top trending products in the market
+                            Validate Product Idea
                         </Text>
                     </Button>
 
                     <Button
                         style={{
                             boxShadow: "0 0 10px 0 #A5B4FC",
-                            borderRadius: "25px 25px",
+                            borderRadius: "25px",
                             padding: "4px 10px",
                             margin: "0 10px",
-                            marginTop: 0,
                             maxHeight: "fit-content",
                         }}
+                        onClick={() =>
+                            sendMessage(
+                                "Suggest improvements for my current wellbeing product lineup."
+                            )
+                        }
                     >
                         <Text style={{ fontSize: "12px", fontWeight: "bold" }}>
-                            Help me to analyze the overall feedbacks for my
-                            products
+                            Suggest Improvements
                         </Text>
                     </Button>
 
                     <Button
                         style={{
                             boxShadow: "0 0 10px 0 #A5B4FC",
-                            borderRadius: "25px 25px",
+                            borderRadius: "25px",
                             padding: "4px 10px",
                             marginBottom: "10px",
                             maxHeight: "fit-content",
                         }}
+                        onClick={() =>
+                            sendMessage(
+                                "What features are missing compared to leading competitors in the market?"
+                            )
+                        }
                     >
                         <Text style={{ fontSize: "12px", fontWeight: "bold" }}>
-                            Summarize...
+                            Compare Features
                         </Text>
                     </Button>
                 </Flex>
@@ -88,7 +100,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ sendMessage }) => {
                             style={{
                                 borderRadius: "50%",
                                 backgroundColor: "white",
-                                color: "#B100B1",
+                                color: "#4F46E5",
                             }}
                             onClick={handleSend}
                         />
@@ -97,7 +109,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ sendMessage }) => {
                             icon={<SendOutlined />}
                             style={{
                                 borderRadius: "50%",
-                                backgroundColor: "#B100B1",
+                                backgroundColor: "#4F46E5",
                                 color: "white",
                             }}
                             onClick={handleSend}

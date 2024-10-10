@@ -111,11 +111,11 @@ const Notice: React.FC = () => {
 
     return (
         <List
-            header={<div>Regulatory Compliance Approval Status</div>}
-            style={{
-                borderRadius: "1em",
+            // header={<div>Regulatory Compliance Approval Status</div>}
+            // style={{
+            //     borderRadius: "1em",
                 
-            }}
+            // }}
         >
             <VirtualList
                 data={data}

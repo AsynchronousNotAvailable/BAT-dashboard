@@ -43,7 +43,7 @@ const AISvg = () => (
                 gradientUnits="userSpaceOnUse"
             >
                 <stop offset={0.5} stopColor="#42004B" />
-                <stop offset={1} stopColor="#B100B1" />
+                <stop offset={1} stopColor="#4F46E5" />
             </linearGradient>
         </defs>
     </svg>

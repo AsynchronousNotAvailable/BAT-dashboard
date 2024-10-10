@@ -1,43 +1,36 @@
 "use client";
 
 import { useState } from "react";
-import { Button, Select, Col, Row, Table, Input, Divider, Flex, Typography } from "antd";
+import { Button, Select, Col, Row, Table, Typography, Space, Card, Divider } from "antd";
 import styled from "styled-components";
-import Title from "antd/es/typography/Title";
-import Icon, {
-    PlusOutlined,
-    CloseSquareOutlined,
-    FileSearchOutlined,
-    CheckOutlined,
-    CloseOutlined,
-} from "@ant-design/icons";
+import Icon, { PlusOutlined, CloseSquareOutlined, FileSearchOutlined } from "@ant-design/icons";
 import type { GetProps } from "antd";
 
 type CustomIconComponentProps = GetProps<typeof Icon>;
 const { Option } = Select;
+const { Title, Text } = Typography;
 
 const AnalyticsPage: React.FC = () => {
-    const { Text } = Typography;
     // State to keep track of product columns
     const [productColumns, setProductColumns] = useState<number[]>([0]);
-     const [ownProductColumns, setOwnProductColumns] = useState<number[]>([0]);
-    // State to track selected products for each column
-    const [selectedProducts, setSelectedProducts] = useState<{
-        [key: number]: string | undefined;
-    }>({});
 
-    const [selectedOwnProducts, setSelectedOwnProducts] = useState<{
-        [key: number]: string | undefined;
-    }>({});
+    // State to track selected products for each column
+    const [selectedProducts, setSelectedProducts] = useState<{ [key: number]: string | undefined }>({});
+
     // State to control the display of the analysis table
     const [showAnalysisTable, setShowAnalysisTable] = useState(false);
 
+    // Aspects to compare
+    const aspects = ["Comfort", "Brainwave Analysis", "Health Monitoring", "Sustainability"];
+
+    // Function to add a new product column for comparison
     const addProductColumn = () => {
         if (productColumns.length < 3) {
             setProductColumns([...productColumns, productColumns.length]);
         }
     };
 
+    // Function to remove a product column
     const removeProductColumn = (index: number) => {
         const newColumns = productColumns.filter((_, idx) => idx !== index);
         setProductColumns(newColumns);
@@ -48,6 +41,7 @@ const AnalyticsPage: React.FC = () => {
         setSelectedProducts(updatedProducts);
     };
 
+    // Function to handle the change in product selection
     const handleProductChange = (value: string, index: number) => {
         setSelectedProducts({
             ...selectedProducts,
@@ -55,108 +49,77 @@ const AnalyticsPage: React.FC = () => {
         });
     };
 
-    const handleOwnProductChange = (value: string, index: number) => {
-        setSelectedOwnProducts({
-            ...selectedOwnProducts,
-            [index]: value,
-        });
-    };
-
+    // Product data (our product and competitors)
     const ownProductData = [
         {
-            productName: "MindSync Brainwave Headset",
-            price: "$80",
-            usability:
-                "Durable and reusable for years with temperature insulation.",
-            sustainability:
-                "Made from 100% recycled materials, carbon-neutral manufacturing.",
-        },
-        {
-            productName: "MindSync Smart Glasses",
-            price: "$120",
-            usability:
-                "Shock-resistant and provides strong protection for all phone models.",
-            sustainability:
-                "Compostable after use, made with non-toxic, renewable resources.",
+            productName: "MindSync Headwave Earphone",
+            comfort: "Ergonomically designed for long meditation sessions with premium memory foam tips",
+            brainwaveAnalysis: "Advanced EEG feedback for personalized, real-time insights",
+            healthMonitoring: "Heart rate, stress levels, and relaxation feedback with integrated sensors",
+            sustainability: "Made from 100% recycled materials, environmentally conscious packaging",
         },
     ];
 
     const productData = [
         {
-            productName: "Mindfulness Journal",
-            price: "$20",
-            usability:
-                "Guided prompts to encourage daily reflection and gratitude.",
-            sustainability: "Made from recycled paper with eco-friendly ink.",
+            productName: "NeuroSync Headwave Headset",
+            comfort: "Comfortable ear cushions but bulkier compared to in-ear models",
+            brainwaveAnalysis: "Standard EEG feedback for meditation tracking",
+            healthMonitoring: "Limited to brain activity monitoring only",
+            sustainability: "Partially recycled materials",
         },
         {
-            productName: "Aromatherapy Diffuser",
-            price: "$45",
-            usability:
-                "Creates a calming atmosphere with essential oils to reduce stress.",
-            sustainability:
-                "Constructed from sustainably sourced wood and non-toxic materials.",
+            productName: "FocusFit Smart Watch",
+            comfort: "Lightweight with adjustable strap, but not suited for extended meditation sessions",
+            brainwaveAnalysis: "No EEG capabilities, focuses on heart rate and HRV tracking",
+            healthMonitoring: "Heart rate, sleep tracking, stress monitoring",
+            sustainability: "Contains non-recyclable parts",
         },
         {
-            productName: "Brainwave Meditation Headset",
-            price: "$150",
-            usability:
-                "Uses EEG technology to enhance meditation experiences through biofeedback.",
-            sustainability:
-                "Designed with recyclable materials and energy-efficient components.",
+            productName: "AlphaBand Brainwave Detection Device",
+            comfort: "Adjustable headband but can cause discomfort during prolonged use",
+            brainwaveAnalysis: "Basic real-time brainwave monitoring",
+            healthMonitoring: "Focus and relaxation levels only",
+            sustainability: "Limited sustainability claims",
         },
         {
-            productName: "Guided Meditation App Subscription",
-            price: "$10/month",
-            usability:
-                "Access to a library of guided meditations for stress relief and focus.",
-            sustainability:
-                "Digital product with no physical materials, reducing waste.",
-        },
-        {
-            productName: "Stress Relief Coloring Book",
-            price: "$15",
-            usability:
-                "Intricate designs to promote relaxation and creativity.",
-            sustainability: "Printed on recycled paper with soy-based inks.",
+            productName: "MindWave Earbuds Pro",
+            comfort: "Custom-fit ear tips but lacks ergonomic design for longer wear",
+            brainwaveAnalysis: "EEG sensors with basic meditation enhancement",
+            healthMonitoring: "Heart rate monitoring but no stress feedback",
+            sustainability: "Standard materials with minimal eco-friendly focus",
         },
     ];
 
-
     const AISummary = [
-       "Recent studies show a 40% increase in the use of mindfulness apps among users looking to manage anxiety and stress, indicating a growing market for mental health tools.",
-       "Research highlights that sustainable products, such as eco-friendly wellness items, are gaining popularity, with consumers increasingly prioritizing both mental health benefits and environmental impact.",
-       "New findings suggest that brainwave entrainment technologies, like EEG devices, are becoming more mainstream, as they offer innovative ways to enhance meditation practices and improve focus.",
-   ];
+        "MindSync Headwave Earphones stand out with the most advanced EEG technology, providing real-time personalized insights, significantly outperforming competitors with similar or less advanced features.",
+        "FocusFit Smart Watch is limited to general wellness tracking without EEG capabilities, making MindSync the ideal choice for users seeking both mental and physical wellbeing features.",
+        "AlphaBand Brainwave Detection Device offers basic EEG capabilities, but MindSync's ergonomic design and superior health monitoring provide a more comfortable and comprehensive solution.",
+        "MindSync's sustainability approach is unmatched, with 100% recycled materials, setting a benchmark in the eco-friendly wellness space.",
+    ];
 
-
-    // Get an array of products that have already been selected
     const selectedValues = Object.values(selectedProducts);
 
-    // Aspects to compare
-    const aspects = ["Price", "Usability", "Sustainability"];
+    const aspectMapping: { [key: string]: keyof typeof ownProductData[number] } = {
+        "Comfort": "comfort",
+        "Brainwave Analysis": "brainwaveAnalysis",
+        "Health Monitoring": "healthMonitoring",
+        "Sustainability": "sustainability",
+    };
 
-    // Function to handle analysis button click
     const handleAnalyzeClick = () => {
         setShowAnalysisTable(true);
     };
 
-
     const AnalyzeSvg = () => (
-        <svg
-            width="24"
-            height="24"
-            viewBox="0 0 16 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg width="24" height="24" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M12.9524 1.5238C13.1922 2.24325 13.7568 2.80779 14.4762 3.04761C14.7508 3.13913 14.7508 3.52751 14.4762 3.61904C13.7568 3.85885 13.1922 4.42341 12.9524 5.14285C12.8609 5.41743 12.4725 5.41743 12.381 5.14285C12.1412 4.42341 11.5766 3.85885 10.8572 3.61904C10.5826 3.52751 10.5826 3.13913 10.8572 3.04761C11.5766 2.80779 12.1412 2.24325 12.381 1.5238C12.4725 1.24923 12.8609 1.24923 12.9524 1.5238Z"
                 fill="white"
             />
             <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M14.0297 7.12107C11.5979 6.31043 9.68964 4.40219 8.87904 1.97038C8.59744 1.12565 7.40264 1.12565 7.12104 1.97038C6.31044 4.40219 4.4022 6.31043 1.97038 7.12107C1.12565 7.4026 1.12565 8.59747 1.97038 8.87907C4.4022 9.68967 6.31044 11.5979 7.12104 14.0297C7.40264 14.8744 8.59744 14.8744 8.87904 14.0297C9.68964 11.5979 11.5979 9.68967 14.0297 8.87907C14.8744 8.59747 14.8744 7.4026 14.0297 7.12107ZM8.00004 3.36665C7.05611 5.41227 5.41227 7.05607 3.36666 8.00007C5.41226 8.944 7.05611 10.5878 8.00004 12.6334C8.94397 10.5878 10.5878 8.944 12.6334 8.00007C10.5878 7.05607 8.94397 5.41227 8.00004 3.36665Z"
                 fill="white"
             />
@@ -167,213 +130,151 @@ const AnalyticsPage: React.FC = () => {
         </svg>
     );
 
-    const AIIcon = (props: Partial<CustomIconComponentProps>) => (
-        <Icon component={AnalyzeSvg} {...props} />
-    );
+    const AIIcon = (props: Partial<CustomIconComponentProps>) => <Icon component={AnalyzeSvg} {...props} />;
 
     return (
         <>
-            <div
-                style={{
-                    padding: "20px",
-                    backgroundColor: "white",
-                    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-                    borderRadius: "20px",
-                }}
-            >
-                <Title level={3} style={{ margin: "20px" }}>
-                    Analytics
-                </Title>
-                <Row gutter={16}>
+            <StyledPageWrapper>
+                <StyledTitle level={4}>Product Analytics Comparison</StyledTitle>
+                <Row gutter={16} wrap>
                     {productColumns.map((column, index) => (
                         <Col key={index} span={8}>
-                            <StyledProductColumn>
-                                <Text
-                                    style={{
-                                        fontWeight: "bold",
-                                        fontSize: "12px",
-                                    }}
-                                >
-                                    {index === 0
-                                        ? "Your Product"
-                                        : `Competitor Product ${index}`}
-                                </Text>
+                            <StyledCard size="small" bordered={true}>
+                                <Text strong>{index === 0 ? "Your Product" : `Competitor Product ${index}`}</Text>
                                 <Select
                                     placeholder="Select a product"
-                                    style={{
-                                        width: "100%",
-                                        marginBottom: "20px",
-                                    }}
-                                    onChange={(value) => {
-                                        if (index === 0) {
-                                            handleOwnProductChange(
-                                                value,
-                                                index
-                                            );
-                                        } else {
-                                            handleProductChange(value, index);
-                                        }
-                                    }}
-                                    value={
-                                        index === 0
-                                            ? selectedOwnProducts[index]
-                                            : selectedProducts[index]
-                                    } // Use the correct state
+                                    style={{ width: "100%", marginTop: "10px" }}
+                                    onChange={(value) => handleProductChange(value, index)}
+                                    value={selectedProducts[index]}
+                                    size="small"
                                 >
-                                    {index !== 0
-                                        ? productData.map((product) => (
-                                              <Option
-                                                  key={product?.productName}
-                                                  value={product?.productName}
-                                                  disabled={selectedValues.includes(
-                                                      product?.productName
-                                                  )} // Disable already selected products
-                                              >
+                                    {index === 0
+                                        ? ownProductData.map((product) => (
+                                              <Option key={product?.productName} value={product?.productName}>
                                                   {product?.productName}
                                               </Option>
                                           ))
-                                        : ownProductData.map((product) => (
+                                        : productData.map((product) => (
                                               <Option
                                                   key={product?.productName}
                                                   value={product?.productName}
+                                                  disabled={selectedValues.includes(product?.productName)}
                                               >
                                                   {product?.productName}
                                               </Option>
                                           ))}
                                 </Select>
-
                                 {productColumns.length > 1 && (
-                                    <Flex
-                                        style={{
-                                            justifyContent: "flex-end",
-                                            // border: "2px dashed #ccc",
-                                        }}
-                                    >
-                                        <Button
-                                            danger
-                                            icon={<CloseSquareOutlined />}
-                                            onClick={() =>
-                                                removeProductColumn(index)
-                                            }
-                                        />
-                                    </Flex>
+                                    <Button
+                                        type="link"
+                                        danger
+                                        icon={<CloseSquareOutlined />}
+                                        onClick={() => removeProductColumn(index)}
+                                        size="small"
+                                        style={{ marginTop: "10px" }}
+                                    />
                                 )}
-                            </StyledProductColumn>
+                            </StyledCard>
                         </Col>
                     ))}
-
                     {productColumns.length < 3 && (
-                        <StyledAddProductColumn onClick={addProductColumn}>
-                            <PlusOutlined
-                                style={{ fontSize: "24px", color: "#999" }}
-                            />
-                        </StyledAddProductColumn>
+                        <Col span={8}>
+                            <StyledAddProductColumn onClick={addProductColumn}>
+                                <PlusOutlined style={{ fontSize: "20px", color: "#999" }} />
+                            </StyledAddProductColumn>
+                        </Col>
                     )}
                 </Row>
 
-                {/* Analyze Button */}
-                <Button
-                    type="primary"
-                    onClick={handleAnalyzeClick}
-                    icon={<FileSearchOutlined />}
-                    style={{ marginTop: "20px" }}
-                />
-            </div>
+                <StyledButtonWrapper>
+                    <Button
+                        type="primary"
+                        onClick={handleAnalyzeClick}
+                        icon={<FileSearchOutlined />}
+                        size="middle"
+                        style={{ backgroundColor: "#4F46E5", borderColor: "#4F46E5", borderRadius: "8px" }}
+                    >
+                        Analyse
+                    </Button>
+                </StyledButtonWrapper>
+            </StyledPageWrapper>
+
             {/* Analysis Table */}
             {showAnalysisTable && (
-                <>
-                    <Title level={3} style={{ margin: "20px" }}>
-                        Analysis
-                    </Title>
-                    <StyledAnalysisTable>
-                        {aspects.map((aspect, aspectIndex) => (
-                            <>
-                                <div
-                                    key={aspect}
-                                    style={{ padding: "20px", paddingTop: 0 }}
-                                >
-                                    <Title level={4}>{aspect}</Title>
-                                    <Table
-                                        dataSource={[{ key: aspectIndex }]} // One row for the current aspect
-                                        pagination={false}
-                                        columns={[
-                                            ...productColumns.map(
-                                                (_, columnIndex) => ({
-                                                    title:
-                                                        columnIndex !== 0
-                                                            ? `${productData[columnIndex]?.productName}`
-                                                            : `${ownProductData[columnIndex]?.productName}`, // Dynamically show product titles
-                                                    dataIndex: `product-${columnIndex}`,
-                                                    render: () => (
-                                                        <p
-                                                            style={{
-                                                                maxWidth: 300,
-                                                            }}
-                                                        >
-                                                            {columnIndex !== 0
-                                                                ? productData[
-                                                                      columnIndex
-                                                                  ]?.[
-                                                                      aspect.toLowerCase() as keyof Omit<
-                                                                          (typeof productData)[number],
-                                                                          "productName"
-                                                                      >
-                                                                  ]
-                                                                : ownProductData[
-                                                                      columnIndex
-                                                                  ]?.[
-                                                                      aspect.toLowerCase() as keyof Omit<
-                                                                          (typeof ownProductData)[number],
-                                                                          "productName"
-                                                                      >
-                                                                  ]}
-                                                        </p>
-                                                    ),
-                                                })
-                                            ),
-                                        ]}
-                                    />
-                                </div>
+                <StyledAnalysisTable>
+                    {aspects.map((aspect, aspectIndex) => (
+                        <div key={aspect} style={{ marginBottom: "25px" }}>
+                            <StyledTableTitle level={5}>{aspect}</StyledTableTitle>
+                            <Table
+                                size="small"
+                                bordered
+                                dataSource={[{ key: aspectIndex }]}
+                                pagination={false}
+                                columns={[
+                                    ...productColumns.map((_, columnIndex) => ({
+                                        title: selectedProducts[columnIndex],
+                                        dataIndex: `product-${columnIndex}`,
+                                        render: () => {
+                                            const product =
+                                                columnIndex === 0
+                                                    ? ownProductData[0]
+                                                    : productData.find(
+                                                          (product) =>
+                                                              product.productName ===
+                                                              selectedProducts[columnIndex]
+                                                      );
 
-                                <Flex
-                                    vertical={false}
-                                    style={{
-                                        padding: "10px",
-                                        background:
-                                            "linear-gradient(90deg, #4F46E5, rgba(79, 70, 229, 0.4))",
-                                        borderColor: "#4338CA",
-                                        borderWidth: "2px",
-                                        borderRadius: "20px",
-                                        alignItems: "center",
-                                    }}
-                                >
-                                    <AIIcon style={{ margin: "10px" }} />
-                                    <Text
-                                        style={{
-                                            color: "white",
-                                        }}
-                                    >
-                                        {AISummary[aspectIndex]}
-                                    </Text>
-                                </Flex>
-                                <Divider />
-                            </>
-                        ))}
-                    </StyledAnalysisTable>
-                </>
+                                            return (
+                                                <p style={{ maxWidth: 200 }}>
+                                                    {product ? product[aspectMapping[aspect]] : "N/A"}
+                                                </p>
+                                            );
+                                        },
+                                    })),
+                                ]}
+                            />
+                            <StyledInsightSpace>
+                                <AIIcon style={{ margin: "5px" }} />
+                                <Text style={{ color: "white" }}>{AISummary[aspectIndex]}</Text>
+                            </StyledInsightSpace>
+                            <Divider />
+                        </div>
+                    ))}
+                </StyledAnalysisTable>
             )}
         </>
     );
 };
 
+// Styled Components
+const StyledPageWrapper = styled.div`
+    padding: 25px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    max-width: 1200px;
+    margin: 20px auto;
+`;
+
+const StyledTitle = styled(Title)`
+    text-align: center;
+    color: #B100B1;
+    margin-bottom: 25px;
+`;
+
+const StyledCard = styled(Card)`
+    border-radius: 10px;
+    background-color: #fafafa;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+`;
+
 const StyledAddProductColumn = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 200px;
-    width: 200px;
-    border: 2px dashed #ccc;
-    border-radius: 5px;
+    height: 150px;
+    border: 1px dashed #ccc;
+    border-radius: 10px;
     cursor: pointer;
     background-color: #fafafa;
 
@@ -383,19 +284,33 @@ const StyledAddProductColumn = styled.div`
     }
 `;
 
-const StyledProductColumn = styled.div`
-    
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    min-height: 200px;
+const StyledButtonWrapper = styled.div`
+    text-align: left;
+    margin-top: 30px;
+    margin-left: 15px;
 `;
 
 const StyledAnalysisTable = styled.div`
-    margin-top: 20px;   
-    padding: 30px;
-    border-radius: 5px;
+    margin-top: 30px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+`;
 
+const StyledTableTitle = styled(Title)`
+    text-align: center;
+    color: #B100B1;
+`;
+
+const StyledInsightSpace = styled(Space)`
+    padding: 10px;
+    background: linear-gradient(90deg, #4F46E5, rgba(79, 70, 229, 0.8));
+    border-radius: 10px;
+    align-items: center;
+    margin-top: 10px;
 `;
 
 export default AnalyticsPage;
