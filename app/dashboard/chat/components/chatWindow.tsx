@@ -1,19 +1,31 @@
 "use client";
 import React from "react";
-import { List, Card, Typography, Space } from "antd";
+import { List, Card, Typography, Space, Spin } from "antd";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 import ChatInput from "./chatInput";
 
 interface ChatWindowProps {
     messages: { sender: "user" | "bot"; text: string; chartData?: any[] }[];
     sendMessage: (message: string) => void;
+    isLoading: boolean;
 }
 
-const ChatWindow: React.FC<ChatWindowProps> = ({ messages, sendMessage }) => {
+const ChatWindow: React.FC<ChatWindowProps> = ({
+    messages,
+    sendMessage,
+    isLoading,
+}) => {
     const { Text } = Typography;
 
     return (
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", backgroundColor: "white" }}>
+        <div
+            style={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                backgroundColor: "white",
+            }}
+        >
             <List
                 style={{
                     flex: 1,
@@ -28,7 +40,10 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messages, sendMessage }) => {
                         style={{
                             borderBottom: "none",
                             display: "flex",
-                            justifyContent: msg.sender === "user" ? "flex-end" : "flex-start",
+                            justifyContent:
+                                msg.sender === "user"
+                                    ? "flex-end"
+                                    : "flex-start",
                         }}
                     >
                         <Space
@@ -36,8 +51,14 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messages, sendMessage }) => {
                             size="small"
                             style={{
                                 padding: "12px",
-                                borderRadius: msg.sender === "user" ? "20px 20px 0 20px" : "20px 20px 20px 0",
-                                backgroundColor: msg.sender === "user" ? "#F3F6FB" : "#E5E9F0",
+                                borderRadius:
+                                    msg.sender === "user"
+                                        ? "20px 20px 0 20px"
+                                        : "20px 20px 20px 0",
+                                backgroundColor:
+                                    msg.sender === "user"
+                                        ? "#F3F6FB"
+                                        : "#E5E9F0",
                                 boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
                                 maxWidth: "90%", // Increased width for better layout
                                 display: "flex",
@@ -45,33 +66,77 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messages, sendMessage }) => {
                             }}
                         >
                             {/* Message Text */}
-                            <Text style={{ maxWidth: "350px" }}>{msg.text}</Text>
+                            {/* <Text style={{ maxWidth: "350px" }}>
+                                {msg.text}
+                            </Text> */}
 
-                            {/* Message Chart (if available) */}
-                            {msg.chartData && (
-                                <div style={{ marginLeft: "15px" }}>
-                                    <BarChart
-                                        width={460} // Increased width for a longer chart
-                                        height={180} // Slightly increased height for improved visualization
-                                        data={msg.chartData}
-                                    >
-                                        <CartesianGrid strokeDasharray="3 3" />
-                                        <XAxis dataKey={Object.keys(msg.chartData[0])[0]} />
-                                        <YAxis />
-                                        <Tooltip />
-                                        {/* Dynamically render bars for all data keys except the 'name' key */}
-                                        {Object.keys(msg.chartData[0])
-                                            .filter((key) => key !== Object.keys(msg.chartData[0])[0])
-                                            .map((key) => (
-                                                <Bar key={key} dataKey={key} fill={getBarColor(key)} />
-                                            ))}
-                                    </BarChart>
+                            {isLoading && msg.sender === "bot" && (idx === messages.length-1) ? (
+                                <div
+                                    style={{
+                                        padding: "16px",
+                                        textAlign: "center",
+                                    }}
+                                >
+                                    <Spin tip="Generating response..." />
                                 </div>
+                            ) : (
+                                <>
+                                    <Text style={{ maxWidth: "350px" }}>
+                                        {msg.text}
+                                    </Text>
+
+                                    {msg.chartData && (
+                                        <div style={{ marginLeft: "15px" }}>
+                                            <BarChart
+                                                width={460} // Increased width for a longer chart
+                                                height={180} // Slightly increased height for improved visualization
+                                                data={msg.chartData}
+                                            >
+                                                <CartesianGrid strokeDasharray="3 3" />
+                                                <XAxis
+                                                    dataKey={
+                                                        Object.keys(
+                                                            msg.chartData[0]
+                                                        )[0]
+                                                    }
+                                                />
+                                                <YAxis />
+                                                <Tooltip />
+                                                {/* Dynamically render bars for all data keys except the 'name' key */}
+                                                {Object.keys(msg.chartData[0])
+                                                    .filter(
+                                                        (key) =>
+                                                            key !==
+                                                            Object.keys(
+                                                                msg.chartData[0]
+                                                            )[0]
+                                                    )
+                                                    .map((key) => (
+                                                        <Bar
+                                                            key={key}
+                                                            dataKey={key}
+                                                            fill={getBarColor(
+                                                                key
+                                                            )}
+                                                        />
+                                                    ))}
+                                            </BarChart>
+                                        </div>
+                                    )}
+                                </>
                             )}
                         </Space>
                     </List.Item>
                 )}
             />
+
+            {/* Conditionally render loader below the last message if loading */}
+            {/* {isLoading && (
+                <div style={{ padding: "16px", textAlign: "center" }}>
+                    <Spin tip="Generating response..." />
+                </div>
+            )} */}
+
             <Card style={{ borderTop: "1px solid #f0f0f0" }}>
                 <ChatInput sendMessage={sendMessage} />
             </Card>

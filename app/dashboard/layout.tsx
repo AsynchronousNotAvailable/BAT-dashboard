@@ -39,7 +39,7 @@ const items: MenuItem[] = [
     
     getItem("Home", "/dashboard", <HomeOutlined />),
     getItem("Analytics", "/dashboard/analytics", <PieChartOutlined />),
-    // getItem("Leaderboard", "/dashboard/leaderboard", <OrderedListOutlined />),
+    getItem("Leaderboard", "/dashboard/leaderboard", <OrderedListOutlined />),
     getItem("Chat", "/dashboard/chat", <MessageOutlined />),
     getItem("Profile", "/dashboard/profile", <UserOutlined />),
 ];

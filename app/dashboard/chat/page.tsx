@@ -28,6 +28,8 @@ const Chat: React.FC = () => {
     const [currentChat, setCurrentChat] = useState(0);
     const [currentReplyIndex, setCurrentReplyIndex] = useState(0);
 
+    const [isLoading, setIsLoading] = useState(false);
+
     // New Prompts Focused on Validation, Suggestion, and Analytics
     const botReplies = [
 
@@ -60,21 +62,74 @@ const Chat: React.FC = () => {
         },
     ];
 
-    const sendMessage = (message: string) => {
+    const sendMessage = async (message: string) => {
+        
         const newChats = [...chats];
         newChats[currentChat].messages.push({ sender: "user", text: message });
-
-        // Ensure the bot reply follows the sequence
-        const botReply = botReplies[currentReplyIndex];
-        newChats[currentChat].messages.push({
-            sender: "bot",
-            text: botReply.text,
-            chartData: botReply.chartData,
-        });
-
-        // Update the reply index for the next message
-        setCurrentReplyIndex((prevIndex) => (prevIndex + 1) % botReplies.length);
         setChats(newChats);
+
+        const minLoadingTime = new Promise((resolve) =>
+            setTimeout(resolve, 2000)
+        );
+         setIsLoading(true);
+
+
+        if (currentReplyIndex <= 2) {
+            
+            // Ensure the bot reply follows the sequence
+            const botReply = botReplies[currentReplyIndex];
+            newChats[currentChat].messages.push({
+                sender: "bot",
+                text: botReply.text,
+                chartData: botReply.chartData,
+            });
+            
+            // Update the reply index for the next message
+            
+        }
+        else {
+           
+            try {
+                newChats[currentChat].messages.push({
+                    sender: "bot",
+                    text: "",
+                    // chartData: botReply.chartData,
+                });
+                const res = await fetch("/api/chatgpt", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ message }),
+                });
+
+                const data = await res.json();
+                // setResponse(data.choices[0].message.content);
+                newChats[currentChat].messages.pop();
+                newChats[currentChat].messages.push({
+                    sender: "bot",
+                    text: data.choices[0].message.content,
+                    // chartData: botReply.chartData,
+                });
+                setCurrentReplyIndex(
+                    (prevIndex) => (prevIndex + 1) % botReplies.length
+                );
+            } catch (error) {
+                console.error("Error:", error);
+            }
+            
+            
+        }
+
+        setCurrentReplyIndex((prevIndex) => prevIndex + 1);
+        setChats(newChats);
+        
+        await minLoadingTime; // Ensures loader is shown for at least 2 seconds
+        setIsLoading(false);
+        
+
+
+        
     };
 
     const createNewChat = () => {
@@ -119,14 +174,17 @@ const Chat: React.FC = () => {
             <Layout>
                 {chats[currentChat] ? (
                     <Content style={{ display: "flex" }}>
+                        
                         <ChatWindow
                             messages={chats[currentChat].messages}
                             sendMessage={sendMessage}
+                            isLoading={isLoading}
                         />
                         <div style={{ width: "430px", marginLeft: "20px" }}>
                             <ChatConfig />
                         </div>
                     </Content>
+                   
                 ) : (
                     <Content style={{ display: "flex" }}>
                         <TrendingPromptList />
