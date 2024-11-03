@@ -112,7 +112,7 @@ const Chat: React.FC = () => {
                     // chartData: botReply.chartData,
                 });
                 setCurrentReplyIndex(
-                    (prevIndex) => (prevIndex + 1) % botReplies.length
+                    (prevIndex) => (prevIndex + 1)
                 );
             } catch (error) {
                 console.error("Error:", error);
