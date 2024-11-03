@@ -1,11 +1,30 @@
-"use client";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { List, Card, Typography, Space, Spin } from "antd";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
+import {
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    LineChart,
+    Legend,
+    Line,
+    Radar,
+    RadarChart,
+    PolarGrid,
+    PolarAngleAxis,
+    PolarRadiusAxis,
+} from "recharts";
 import ChatInput from "./chatInput";
 
 interface ChatWindowProps {
-    messages: { sender: "user" | "bot"; text: string; chartData?: any[] }[];
+    messages: {
+        sender: "user" | "bot";
+        text: string;
+        chartData?: any[];
+        type?: string;
+    }[];
     sendMessage: (message: string) => void;
     isLoading: boolean;
 }
@@ -16,6 +35,14 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
     isLoading,
 }) => {
     const { Text } = Typography;
+    const listRef = useRef<HTMLDivElement>(null); // Create a ref for the chat list
+
+    // Effect to scroll to bottom whenever messages change
+    useEffect(() => {
+        if (listRef.current) {
+            listRef.current.scrollTop = listRef.current.scrollHeight; // Scroll to the bottom
+        }
+    }, [messages]); // Run effect when messages change
 
     return (
         <div
@@ -27,6 +54,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
             }}
         >
             <List
+                ref={listRef} // Assign the ref to the List
                 style={{
                     flex: 1,
                     overflowY: "auto",
@@ -34,108 +62,153 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                     border: "1px solid #f0f0f0",
                 }}
                 dataSource={messages}
-                renderItem={(msg, idx) => (
-                    <List.Item
-                        key={idx}
-                        style={{
-                            borderBottom: "none",
-                            display: "flex",
-                            justifyContent:
-                                msg.sender === "user"
-                                    ? "flex-end"
-                                    : "flex-start",
-                        }}
-                    >
-                        <Space
-                            direction="horizontal"
-                            size="small"
+                renderItem={(msg, idx) => {
+                    return (
+                        <List.Item
+                            key={idx}
                             style={{
-                                padding: "12px",
-                                borderRadius:
-                                    msg.sender === "user"
-                                        ? "20px 20px 0 20px"
-                                        : "20px 20px 20px 0",
-                                backgroundColor:
-                                    msg.sender === "user"
-                                        ? "#F3F6FB"
-                                        : "#E5E9F0",
-                                boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-                                maxWidth: "90%", // Increased width for better layout
+                                borderBottom: "none",
                                 display: "flex",
-                                alignItems: "center",
+                                justifyContent:
+                                    msg.sender === "user"
+                                        ? "flex-end"
+                                        : "flex-start",
                             }}
                         >
-                            {/* Message Text */}
-                            {/* <Text style={{ maxWidth: "350px" }}>
-                                {msg.text}
-                            </Text> */}
+                            <Space
+                                direction="horizontal"
+                                size="small"
+                                style={{
+                                    padding: "12px",
+                                    borderRadius:
+                                        msg.sender === "user"
+                                            ? "20px 20px 0 20px"
+                                            : "20px 20px 20px 0",
+                                    backgroundColor:
+                                        msg.sender === "user"
+                                            ? "#F3F6FB"
+                                            : "#E5E9F0",
+                                    boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+                                    maxWidth: "90%",
+                                    display: "flex",
+                                    alignItems: "center",
+                                }}
+                            >
+                                {isLoading &&
+                                msg.sender === "bot" &&
+                                idx === messages.length - 1 ? (
+                                    <div
+                                        style={{
+                                            padding: "16px",
+                                            textAlign: "center",
+                                        }}
+                                    >
+                                        <Spin tip="Generating response..." />
+                                    </div>
+                                ) : (
+                                    <>
+                                        <Text style={{ maxWidth: "350px" }}>
+                                            {msg.text}
+                                        </Text>
 
-                            {isLoading && msg.sender === "bot" && (idx === messages.length-1) ? (
-                                <div
-                                    style={{
-                                        padding: "16px",
-                                        textAlign: "center",
-                                    }}
-                                >
-                                    <Spin tip="Generating response..." />
-                                </div>
-                            ) : (
-                                <>
-                                    <Text style={{ maxWidth: "350px" }}>
-                                        {msg.text}
-                                    </Text>
-
-                                    {msg.chartData && (
-                                        <div style={{ marginLeft: "15px" }}>
-                                            <BarChart
-                                                width={460} // Increased width for a longer chart
-                                                height={180} // Slightly increased height for improved visualization
-                                                data={msg.chartData}
-                                            >
-                                                <CartesianGrid strokeDasharray="3 3" />
-                                                <XAxis
-                                                    dataKey={
-                                                        Object.keys(
-                                                            msg.chartData[0]
-                                                        )[0]
-                                                    }
-                                                />
-                                                <YAxis />
-                                                <Tooltip />
-                                                {/* Dynamically render bars for all data keys except the 'name' key */}
-                                                {Object.keys(msg.chartData[0])
-                                                    .filter(
-                                                        (key) =>
-                                                            key !==
-                                                            Object.keys(
-                                                                msg.chartData[0]
-                                                            )[0]
-                                                    )
-                                                    .map((key) => (
-                                                        <Bar
-                                                            key={key}
-                                                            dataKey={key}
-                                                            fill={getBarColor(
-                                                                key
-                                                            )}
+                                        {msg.chartData && (
+                                            <div style={{ marginLeft: "15px" }}>
+                                                {msg.type === "bar" && (
+                                                    <BarChart
+                                                        width={460}
+                                                        height={180}
+                                                        data={msg.chartData}
+                                                    >
+                                                        <CartesianGrid strokeDasharray="3 3" />
+                                                        <XAxis
+                                                            dataKey={
+                                                                Object.keys(
+                                                                    msg
+                                                                        .chartData[0]
+                                                                )[0]
+                                                            }
                                                         />
-                                                    ))}
-                                            </BarChart>
-                                        </div>
-                                    )}
-                                </>
-                            )}
-                        </Space>
-                    </List.Item>
-                )}
-            />
+                                                        <YAxis />
+                                                        <Tooltip />
+                                                        {Object.keys(
+                                                            msg.chartData[0]
+                                                        )
+                                                            .filter(
+                                                                (key) =>
+                                                                    key !==
+                                                                    Object.keys(
+                                                                        msg.chartData[0]
+                                                                    )[0]
+                                                            )
+                                                            .map((key) => (
+                                                                <Bar
+                                                                    key={key}
+                                                                    dataKey={
+                                                                        key
+                                                                    }
+                                                                    fill={getBarColor(
+                                                                        key
+                                                                    )}
+                                                                />
+                                                            ))}
+                                                    </BarChart>
+                                                )}
 
-            {/* Conditionally render loader below the last message if loading */}
-            {/* {isLoading && (
-                <div style={{ padding: "16px", textAlign: "center" }}>
-                    <Spin tip="Generating response..." />
-                </div>
-            )} */}
+                                                {msg.type === "line" && (
+                                                    <LineChart
+                                                        width={460}
+                                                        height={300}
+                                                        data={msg.chartData}
+                                                        margin={{
+                                                            top: 20,
+                                                            right: 30,
+                                                            left: 20,
+                                                            bottom: 20,
+                                                        }}
+                                                    >
+                                                        <CartesianGrid strokeDasharray="3 3" />
+                                                        <XAxis dataKey="time" />
+                                                        <YAxis />
+                                                        <Tooltip />
+                                                        <Legend />
+                                                        <Line
+                                                            type="monotone"
+                                                            dataKey="satisfaction"
+                                                            stroke="#8884d8"
+                                                            strokeWidth={2}
+                                                            activeDot={{ r: 8 }}
+                                                        />
+                                                    </LineChart>
+                                                )}
+
+                                                {msg.type === "radar" && (
+                                                    <RadarChart
+                                                        width={460}
+                                                        height={300}
+                                                        data={msg.chartData}
+                                                    >
+                                                        <PolarGrid />
+                                                        <PolarAngleAxis dataKey="aspect" />
+                                                        <PolarRadiusAxis />
+                                                        <Radar
+                                                            name="User Feedback"
+                                                            dataKey="value"
+                                                            stroke="#4F46E5"
+                                                            fill="#4F46E5"
+                                                            fillOpacity={0.6}
+                                                        />
+                                                        <Tooltip />
+                                                    </RadarChart>
+                                                )}
+                                            </div>
+                                        )}
+                                    </>
+                                )}
+                            </Space>
+                        </List.Item>
+                    );
+                }}
+            />
 
             <Card style={{ borderTop: "1px solid #f0f0f0" }}>
                 <ChatInput sendMessage={sendMessage} />

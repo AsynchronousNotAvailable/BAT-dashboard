@@ -13,8 +13,8 @@ import styled from "styled-components";
 
 const { Title, Text } = Typography;
 
-const AIProductInsightsCard: React.FC = () => {
-    const data = [
+const AIProductInsightsCard: React.FC<{ config: any, focusText: string }> = ({ config, focusText }) => {
+    const afterdata = [
         { aspect: "Consumer Demand", value: 85 },
         { aspect: "Innovation", value: 75 },
         { aspect: "Market Fit", value: 90 },
@@ -22,8 +22,8 @@ const AIProductInsightsCard: React.FC = () => {
         { aspect: "Sustainability", value: 80 },
     ];
 
-    const config = {
-        data,
+    const afterConfig = {
+        data: afterdata,
         xField: "aspect",
         yField: "value",
         areaStyle: { fillOpacity: 0.2 },
@@ -56,14 +56,19 @@ const AIProductInsightsCard: React.FC = () => {
         <StyledCard>
             <Row align="middle">
                 <Col span={16}>
-                    <Title level={4} style={{ marginBottom: 0, color: "#4F46E5" }}>
+                    <Title
+                        level={4}
+                        style={{ marginBottom: 0, color: "#4F46E5" }}
+                    >
                         <RiseOutlined style={{ marginRight: 8 }} />
                         AI Product Insights
                     </Title>
                 </Col>
                 <Col span={8} style={{ textAlign: "right" }}>
                     <Tooltip title="Summary of AI-driven insights on product performance.">
-                        <InfoCircleOutlined style={{ fontSize: 18, color: "#8c8c8c" }} />
+                        <InfoCircleOutlined
+                            style={{ fontSize: 18, color: "#8c8c8c" }}
+                        />
                     </Tooltip>
                 </Col>
             </Row>
@@ -73,11 +78,15 @@ const AIProductInsightsCard: React.FC = () => {
                 <Col span={12}>
                     <MetricCard>
                         <Space size={8}>
-                            <BarChartOutlined style={{ fontSize: 18, color: "#ff5722" }} />
+                            <BarChartOutlined
+                                style={{ fontSize: 18, color: "#ff5722" }}
+                            />
                             <MetricInfo>
-                                <Text strong style={{ fontSize: 14 }}>Top Focus Areas</Text>
+                                <Text strong style={{ fontSize: 14 }}>
+                                    Top Focus Areas
+                                </Text>
                                 <Text type="secondary" style={{ fontSize: 13 }}>
-                                    Personalization, Stress Reduction
+                                    {focusText}
                                 </Text>
                             </MetricInfo>
                         </Space>
@@ -86,9 +95,13 @@ const AIProductInsightsCard: React.FC = () => {
                 <Col span={12}>
                     <MetricCard>
                         <Space size={8}>
-                            <ProfileOutlined style={{ fontSize: 18, color: "#52c41a" }} />
+                            <ProfileOutlined
+                                style={{ fontSize: 18, color: "#52c41a" }}
+                            />
                             <MetricInfo>
-                                <Text strong style={{ fontSize: 14 }}>Emerging Trends</Text>
+                                <Text strong style={{ fontSize: 14 }}>
+                                    Emerging Trends
+                                </Text>
                                 <Text type="secondary" style={{ fontSize: 13 }}>
                                     Brainwave Wearables, Cognitive Support
                                 </Text>
@@ -108,7 +121,13 @@ const AIProductInsightsCard: React.FC = () => {
                 type="primary"
                 icon={<RiseOutlined />}
                 size="middle"
-                style={{ marginTop: 16, width: "100%", borderRadius: 6, backgroundColor: "#4F46E5", borderColor: "#4F46E5" }}
+                style={{
+                    marginTop: 16,
+                    width: "100%",
+                    borderRadius: 6,
+                    backgroundColor: "#4F46E5",
+                    borderColor: "#4F46E5",
+                }}
             >
                 Explore Insights
             </Button>

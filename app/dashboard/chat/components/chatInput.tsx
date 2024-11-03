@@ -46,7 +46,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ sendMessage }) => {
                         </Text>
                     </Button>
 
-                    <Button
+                    {/* <Button
                         style={{
                             boxShadow: "0 0 10px 0 #A5B4FC",
                             borderRadius: "25px",
@@ -63,6 +63,26 @@ const ChatInput: React.FC<ChatInputProps> = ({ sendMessage }) => {
                         <Text style={{ fontSize: "12px", fontWeight: "bold" }}>
                             Suggest Improvements
                         </Text>
+                    </Button> */}
+
+                    <Button
+                        style={{
+                            boxShadow: "0 0 10px 0 #A5B4FC",
+                            borderRadius: "25px",
+                            padding: "4px 10px",
+                            marginBottom: "10px",
+                            marginRight: "10px",
+                            maxHeight: "fit-content",
+                        }}
+                        onClick={() =>
+                            sendMessage(
+                                "What features are missing compared to leading competitors in the market?"
+                            )
+                        }
+                    >
+                        <Text style={{ fontSize: "12px", fontWeight: "bold" }}>
+                            Compare Features
+                        </Text>
                     </Button>
 
                     <Button
@@ -75,12 +95,13 @@ const ChatInput: React.FC<ChatInputProps> = ({ sendMessage }) => {
                         }}
                         onClick={() =>
                             sendMessage(
-                                "What features are missing compared to leading competitors in the market?"
+                                "What impact could this feature have on our user satisfaction?"
                             )
                         }
                     >
                         <Text style={{ fontSize: "12px", fontWeight: "bold" }}>
-                            Compare Features
+                            What impact could this feature have on our user
+                            satisfaction?
                         </Text>
                     </Button>
                 </Flex>
