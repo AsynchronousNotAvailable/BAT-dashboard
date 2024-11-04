@@ -55,7 +55,7 @@ const Notice: React.FC = () => {
                     height={220}
                     itemHeight={47}
                     itemKey="email"
-                    style={{ width: 350 }}
+                    style={{ width: 300 }}
                 >
                     {(item: UserItem) => (
                         <StyledListItem key={item.title}>

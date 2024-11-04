@@ -2,8 +2,8 @@ import React from "react";
 import { Flex, Typography, Divider } from "antd";
 import AIProductInsightsCard from "./aiProductInsight";
 
-const ChatConfig: React.FC<{ config: any; focusText: string }> = ({
-    config,
+const ChatConfig: React.FC<{ chartData?: any; focusText: string }> = ({
+    chartData,
     focusText,
 }) => {
     const { Text } = Typography;
@@ -24,7 +24,10 @@ const ChatConfig: React.FC<{ config: any; focusText: string }> = ({
                 <Divider style={{ marginTop: 0 }} />
             </Flex>
 
-            <AIProductInsightsCard config={config} focusText={focusText} />
+            <AIProductInsightsCard
+                chartData={chartData}
+                focusText={focusText}
+            />
         </Flex>
     );
 };

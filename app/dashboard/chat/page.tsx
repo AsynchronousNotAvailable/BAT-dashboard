@@ -43,35 +43,7 @@ const Chat: React.FC = () => {
         
     ];
 
-    const beforeConfig = {
-        data: beforeData,
-        xField: "aspect",
-        yField: "value",
-        areaStyle: { fillOpacity: 0.2 },
-        point: {
-            size: 4,
-            shape: "circle",
-            style: { fill: "#fff", stroke: "#4F46E5", lineWidth: 1 },
-        },
-        line: {
-            color: "#4F46E5", // Updated line color
-        },
-        xAxis: {
-            line: null,
-            label: {
-                style: { fill: "#8c8c8c", fontSize: 12 },
-            },
-        },
-        yAxis: {
-            min: 0,
-            max: 100,
-            tickCount: 4,
-            label: {
-                style: { fill: "#8c8c8c", fontSize: 12 },
-            },
-        },
-        legend: false,
-    };
+   
 
     const afterData = [
         { aspect: "Consumer Demand", value: 85 },
@@ -81,38 +53,13 @@ const Chat: React.FC = () => {
         { aspect: "Sustainability", value: 80 },
     ];
 
-    const afterConfig = {
-        data: afterData,
-        xField: "aspect",
-        yField: "value",
-        areaStyle: { fillOpacity: 0.2 },
-        point: {
-            size: 4,
-            shape: "circle",
-            style: { fill: "#fff", stroke: "#4F46E5", lineWidth: 1 },
-        },
-        line: {
-            color: "#4F46E5", // Updated line color
-        },
-        xAxis: {
-            line: null,
-            label: {
-                style: { fill: "#8c8c8c", fontSize: 12 },
-            },
-        },
-        yAxis: {
-            min: 0,
-            max: 100,
-            tickCount: 4,
-            label: {
-                style: { fill: "#8c8c8c", fontSize: 12 },
-            },
-        },
-        legend: false,
-    };
-    const [currentChatConfig, setCurrentChatConfig] = useState(beforeConfig); 
+
+    const [currentChatConfig, setCurrentChatConfig] = useState(beforeData); 
     const [focusText, setFocusText] = useState("Stress Reduction");
+    const [samplePrompt, setSamplePrompt] = useState("Suggest Improvements")
     // New Prompts Focused on Validation, Suggestion, and Analytics
+    const samplePrompts = ["Compare my product with other companies", "Visualize growth in monthly active user"]
+    const [promptCounter, setPromptCounter] = useState(0);
     const botReplies = [
         {
             text: "User demand for mindfulness monitoring has increased by 35% in the last 6 months. I recommend considering an integration of mindfulness monitoring to enhance user engagement. Here’s a growth chart illustrating this trend.",
@@ -148,13 +95,13 @@ const Chat: React.FC = () => {
             type: "bar",
         },
         {
-            text: "Based on market data, products with mindfulness monitoring report a 20% increase in user satisfaction. Our internal user feedback indicates similar interest, with 42% of survey respondents highlighting mindfulness as a desired feature. Implementing this feature is projected to enhance user satisfaction significantly.",
+            text: "Based on market data, products with mindfulness monitoring report a 20% increase in user satisfaction. Our internal user feedback indicates similar interest, with 72% of survey respondents highlighting mindfulness as a desired feature. Implementing this feature is projected to enhance user satisfaction significantly.",
             chartData: [
-                { time: "Current Market", satisfaction: 20 },
-                { time: "Internal Feedback", satisfaction: 42 },
+                { time: "Current Market", satisfaction: 50 },
+                { time: "Internal Feedback", satisfaction: 72 },
                 { time: "Projected Satisfaction", satisfaction: 60 },
             ],
-            type: "line",
+            type: "bar",
         },
 
         {
@@ -169,6 +116,50 @@ const Chat: React.FC = () => {
             type: "radar",
         },
     ];
+    
+    const preLoadMessage = async () => {
+       setIsLoading(true); // Start loading
+       const newChats = [...chats];
+        const firstReply = botReplies[0];
+        const secondReply = botReplies[1];
+        
+        
+        newChats[currentChat].messages.push(
+            {
+                sender: "bot",
+                text: "Hi Alex! I’ve detected a growing trend in mindfulness monitoring with AI-powered stress relief. Would you like to explore this?",
+            },
+            {
+                sender: "user",
+                text: "Yes",
+            },
+            
+        );
+        const minLoadingTime = new Promise((resolve) =>
+             setTimeout(resolve, 2000)
+        );
+        
+
+        setCurrentReplyIndex(2);
+        
+       
+        newChats[currentChat].messages.push({
+            sender: "bot",
+            text: firstReply.text,
+            chartData: firstReply.chartData,
+            type: firstReply.type,
+        },
+            {
+                sender: "bot",
+                text: secondReply.text,
+                chartData: secondReply.chartData,
+                type: firstReply.type,
+            });
+        await minLoadingTime;
+        setIsLoading(false);
+        setChats(newChats);
+       
+    }
 
     const sendMessage = async (message: string) => {
         const newChats = [...chats];
@@ -213,7 +204,7 @@ const Chat: React.FC = () => {
             if (botReply.type === "radar") {
                 // Set the config for AIProductInsightsCard
                 const configToPass =
-                    botReply.type === "radar" ? afterConfig : beforeConfig;
+                    botReply.type === "radar" ? afterData : beforeData;
                 // Here you can also set this configuration to be used later
                 await minLoadingTime;
                 setCurrentChatConfig(configToPass);
@@ -221,7 +212,12 @@ const Chat: React.FC = () => {
             }
             setCurrentReplyIndex((prevIndex) => prevIndex + 1);
         } else {
+            
             try {
+                newChats[currentChat].messages.push({
+                    sender: "bot",
+                    text: "",
+                });
                 const res = await fetch("/api/chatgpt", {
                     method: "POST",
                     headers: {
@@ -231,16 +227,22 @@ const Chat: React.FC = () => {
                 });
 
                 const data = await res.json();
-                newChats[currentChat].messages.push({
-                    sender: "bot",
-                    text: data.choices[0].message.content,
-                });
+                if (data) {
+                    newChats[currentChat].messages.pop();
+                    newChats[currentChat].messages.push({
+                        sender: "bot",
+                        text: data.choices[0].message.content,
+                    });
+                }
+                
             } catch (error) {
                 console.error("Error:", error);
             }
         }
 
         setChats(newChats);
+        setSamplePrompt(samplePrompts[promptCounter])
+        setPromptCounter((counter) => counter + 1)
         await minLoadingTime;
         setIsLoading(false);
     };
@@ -296,9 +298,16 @@ const Chat: React.FC = () => {
                             messages={chats[currentChat].messages}
                             sendMessage={sendMessage}
                             isLoading={isLoading}
+                            preLoadMessage={preLoadMessage}
+                            config={currentChatConfig}
+                            samplePrompt={samplePrompt}
+                            setSamplePrompt={setSamplePrompt}
                         />
                         <div style={{ width: "430px", marginLeft: "20px" }}>
-                            <ChatConfig config={currentChatConfig} focusText={focusText} />
+                            <ChatConfig
+                                chartData={currentChatConfig}
+                                focusText={focusText}
+                            />
                         </div>
                     </Content>
                 ) : (

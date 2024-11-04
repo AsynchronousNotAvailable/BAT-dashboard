@@ -15,29 +15,31 @@ import UserCard from "./components/card";
 import Notice from "./components/list";
 import ThreadCard from "./components/forum";
 import { DashboardBarChart } from "./components/barchart";
+import { useRouter } from "next/navigation";
 
 const { Title, Text } = Typography;
 const { Content } = Layout;
 
 const Dashboard: React.FC = () => {
-    const chartRef: any = useRef();
+    const router = useRouter();
 
     // Notification function
     const openNotification = () => {
         const handleYesClick = () => {
-            notification.close("persistent-notification"); // Close the notification
+          
+          router.push("/dashboard/chat");
             console.log("Yes clicked"); // Add additional actions if needed
         };
 
         const handleNoClick = () => {
-            notification.close("persistent-notification"); // Close the notification
+           
             console.log("No clicked"); // Add additional actions if needed
         };
 
         // Check if notification is already open to prevent duplicates
         notification.open({
             key: "persistent-notification", // Unique key to prevent multiple notifications
-            message: "New Update Available",
+            message: "MindSync AI",
             description:
                 "Hi Alex! I’ve detected a growing trend in mindfulness monitoring with AI-powered stress relief. Would you like to explore this?",
             icon: <BellOutlined style={{ color: "#108ee9" }} />,

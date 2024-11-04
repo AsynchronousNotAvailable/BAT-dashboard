@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Avatar, Typography, Divider, Space, Button, Input, List } from "antd";
+import { Card, Avatar, Typography, Divider, Space, Button, Input, List, Image } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import styled from "styled-components"; // Make sure styled is imported
 
@@ -34,7 +34,12 @@ const ThreadCard: React.FC = () => {
         <StyledThreadCard>
             {/* Header: Avatar and Username */}
             <Space align="start">
-                <Avatar size={48} src="https://scontent.fkul16-4.fna.fbcdn.net/v/t39.30808-6/439620060_2236667220011401_8380757790370946109_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=Taj9cz98KUQQ7kNvgHLvkpS&_nc_ht=scontent.fkul16-4.fna&_nc_gid=AkdH-onrGWDOZk8wYHj7y8o&oh=00_AYAOXd8Az1lSrrRcx7WWfOAxUdbWRmVlnHPyL3EYPo2kvg&oe=670DF0E6" />
+                <img
+                    src="/kokcheng.png"
+                    alt="Kok Cheng"
+                    style={{ width: "48px", height: "auto" }}
+                />
+                
                 <div>
                     <Text strong>Kok Cheng</Text>
                     <Text type="secondary" style={{ marginLeft: "10px" }}>
@@ -45,8 +50,13 @@ const ThreadCard: React.FC = () => {
 
             {/* Post Content */}
             <Paragraph style={{ marginTop: "10px" }}>
-                What recent updates have you noticed in our product line or from competitors that align with these trends? Let’s discuss how we can leverage these insights to enhance our offerings!
-                <span style={{ color: "#B100B1" }}> #WellbeingTrends #MentalHealthInnovation</span>
+                What recent updates have you noticed in our product line or from
+                competitors that align with these trends? Let’s discuss how we
+                can leverage these insights to enhance our offerings!
+                <span style={{ color: "#B100B1" }}>
+                    {" "}
+                    #WellbeingTrends #MentalHealthInnovation
+                </span>
             </Paragraph>
 
             {/* Divider */}
@@ -68,7 +78,9 @@ const ThreadCard: React.FC = () => {
                             />
                             <div>
                                 <Text strong>{reply.user}</Text>
-                                <Paragraph style={{ marginBottom: 0 }}>{reply.content}</Paragraph>
+                                <Paragraph style={{ marginBottom: 0 }}>
+                                    {reply.content}
+                                </Paragraph>
                             </div>
                         </Space>
                     </List.Item>

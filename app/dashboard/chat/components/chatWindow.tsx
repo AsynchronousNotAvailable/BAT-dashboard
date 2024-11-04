@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { List, Card, Typography, Space, Spin } from "antd";
 import {
     BarChart,
@@ -27,22 +27,48 @@ interface ChatWindowProps {
     }[];
     sendMessage: (message: string) => void;
     isLoading: boolean;
+    preLoadMessage: any;
+    config?: any;
+    samplePrompt: string;
+    setSamplePrompt: any;
 }
 
 const ChatWindow: React.FC<ChatWindowProps> = ({
     messages,
     sendMessage,
     isLoading,
+    preLoadMessage,
+    config,
+    samplePrompt,
+    setSamplePrompt,
 }) => {
     const { Text } = Typography;
-    const listRef = useRef<HTMLDivElement>(null); // Create a ref for the chat list
-
+    console.log(messages)
+    
     // Effect to scroll to bottom whenever messages change
     useEffect(() => {
-        if (listRef.current) {
-            listRef.current.scrollTop = listRef.current.scrollHeight; // Scroll to the bottom
+        const minLoadingTime = 2000;
+        if (messages.length === 0) {
+            preLoadMessage(); // Call the function to preload messages
+
+            const timeoutId = setTimeout(() => {
+                setSamplePrompt(
+                    "What impact could this feature have on our user satisfaction?"
+                );
+            }, minLoadingTime);
+
+            return () => clearTimeout(timeoutId); // Cleanup on unmount or when effect runs again
+        } else {
+            // If messages change (not empty), you can reset or change samplePrompt if needed
+            const timeoutId = setTimeout(() => {
+                setSamplePrompt(
+                    "What impact could this feature have on our user satisfaction?"
+                );
+            }, minLoadingTime);
+
+            return () => clearTimeout(timeoutId);
         }
-    }, [messages]); // Run effect when messages change
+    }, [messages]);
 
     return (
         <div
@@ -54,7 +80,6 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
             }}
         >
             <List
-                ref={listRef} // Assign the ref to the List
                 style={{
                     flex: 1,
                     overflowY: "auto",
@@ -89,14 +114,14 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                                             ? "#F3F6FB"
                                             : "#E5E9F0",
                                     boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-                                    maxWidth: "90%",
+                                    maxWidth: "fit-content",
                                     display: "flex",
                                     alignItems: "center",
                                 }}
                             >
                                 {isLoading &&
-                                msg.sender === "bot" &&
-                                idx === messages.length - 1 ? (
+                                    msg.sender === "bot" &&
+                                    (idx === messages.length - 1)? (
                                     <div
                                         style={{
                                             padding: "16px",
@@ -115,7 +140,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                                             <div style={{ marginLeft: "15px" }}>
                                                 {msg.type === "bar" && (
                                                     <BarChart
-                                                        width={460}
+                                                        width={520}
                                                         height={180}
                                                         data={msg.chartData}
                                                     >
@@ -137,7 +162,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                                                                 (key) =>
                                                                     key !==
                                                                     Object.keys(
-                                                                        msg.chartData[0]
+                                                                        msg
+                                                                            .chartData[0]
                                                                     )[0]
                                                             )
                                                             .map((key) => (
@@ -154,7 +180,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                                                     </BarChart>
                                                 )}
 
-                                                {msg.type === "line" && (
+                                                {/* {msg.type === "line" && (
                                                     <LineChart
                                                         width={460}
                                                         height={300}
@@ -179,26 +205,39 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                                                             activeDot={{ r: 8 }}
                                                         />
                                                     </LineChart>
-                                                )}
+                                                )} */}
 
                                                 {msg.type === "radar" && (
                                                     <RadarChart
                                                         width={460}
-                                                        height={300}
+                                                        height={330}
                                                         data={msg.chartData}
                                                     >
                                                         <PolarGrid />
-                                                        <PolarAngleAxis dataKey="aspect" />
-                                                        <PolarRadiusAxis />
+                                                        <PolarAngleAxis
+                                                            dataKey="aspect"
+                                                            label={{
+                                                                fontSize: 14,
+                                                                fill: "#4F46E5",
+                                                            }} // Adjust font size and color for angle labels
+                                                        />
+                                                        <PolarRadiusAxis
+                                                            label={{
+                                                                fontSize: 14,
+                                                                fill: "#4F46E5",
+                                                            }} // Adjust font size and color for radius labels
+                                                        />
                                                         <Radar
                                                             name="User Feedback"
                                                             dataKey="value"
                                                             stroke="#4F46E5"
-                                                            fill="#4F46E5"
-                                                            fillOpacity={0.6}
+                                                            fill="none"
+                                                            fillOpacity={1}
                                                         />
                                                         <Tooltip />
                                                     </RadarChart>
+
+                                                    // <Radar {...config} />
                                                 )}
                                             </div>
                                         )}
@@ -211,7 +250,10 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
             />
 
             <Card style={{ borderTop: "1px solid #f0f0f0" }}>
-                <ChatInput sendMessage={sendMessage} />
+                <ChatInput
+                    sendMessage={sendMessage}
+                    samplePrompt={samplePrompt}
+                />
             </Card>
         </div>
     );

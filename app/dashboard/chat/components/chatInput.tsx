@@ -4,9 +4,10 @@ import { SendOutlined, PaperClipOutlined } from "@ant-design/icons";
 
 interface ChatInputProps {
     sendMessage: (message: string) => void;
+    samplePrompt: string;
 }
 
-const ChatInput: React.FC<ChatInputProps> = ({ sendMessage }) => {
+const ChatInput: React.FC<ChatInputProps> = ({ sendMessage, samplePrompt }) => {
     const [input, setInput] = useState("");
     const { Text } = Typography;
 
@@ -27,6 +28,20 @@ const ChatInput: React.FC<ChatInputProps> = ({ sendMessage }) => {
         >
             <Flex vertical={true} style={{ width: "100%" }}>
                 <Flex vertical={false} style={{ padding: "10px 0" }}>
+                    <Button
+                        style={{
+                            boxShadow: "0 0 10px 0 #A5B4FC",
+                            borderRadius: "25px",
+                            padding: "4px 10px",
+                            marginBottom: "10px",
+                            maxHeight: "fit-content",
+                        }}
+                        onClick={() => sendMessage(samplePrompt)}
+                    >
+                        <Text style={{ fontSize: "12px", fontWeight: "bold" }}>
+                            {samplePrompt || "Suggest Improvements"}
+                        </Text>
+                    </Button>
                     <Button
                         style={{
                             boxShadow: "0 0 10px 0 #A5B4FC",
@@ -82,26 +97,6 @@ const ChatInput: React.FC<ChatInputProps> = ({ sendMessage }) => {
                     >
                         <Text style={{ fontSize: "12px", fontWeight: "bold" }}>
                             Compare Features
-                        </Text>
-                    </Button>
-
-                    <Button
-                        style={{
-                            boxShadow: "0 0 10px 0 #A5B4FC",
-                            borderRadius: "25px",
-                            padding: "4px 10px",
-                            marginBottom: "10px",
-                            maxHeight: "fit-content",
-                        }}
-                        onClick={() =>
-                            sendMessage(
-                                "What impact could this feature have on our user satisfaction?"
-                            )
-                        }
-                    >
-                        <Text style={{ fontSize: "12px", fontWeight: "bold" }}>
-                            What impact could this feature have on our user
-                            satisfaction?
                         </Text>
                     </Button>
                 </Flex>

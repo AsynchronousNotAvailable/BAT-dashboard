@@ -2,55 +2,29 @@
 
 import React from "react";
 import { Card, Space, Button, Tooltip, Row, Col, Typography } from "antd";
-import { Radar } from "@ant-design/plots";
+
 import {
     BarChartOutlined,
     RiseOutlined,
     ProfileOutlined,
     InfoCircleOutlined,
 } from "@ant-design/icons";
+import {
+    Radar,
+    RadarChart,
+    PolarGrid,
+    PolarAngleAxis,
+    PolarRadiusAxis,
+} from "recharts";
 import styled from "styled-components";
 
 const { Title, Text } = Typography;
 
-const AIProductInsightsCard: React.FC<{ config: any, focusText: string }> = ({ config, focusText }) => {
-    const afterdata = [
-        { aspect: "Consumer Demand", value: 85 },
-        { aspect: "Innovation", value: 75 },
-        { aspect: "Market Fit", value: 90 },
-        { aspect: "Scalability", value: 60 },
-        { aspect: "Sustainability", value: 80 },
-    ];
-
-    const afterConfig = {
-        data: afterdata,
-        xField: "aspect",
-        yField: "value",
-        areaStyle: { fillOpacity: 0.2 },
-        point: {
-            size: 4,
-            shape: "circle",
-            style: { fill: "#fff", stroke: "#4F46E5", lineWidth: 1 },
-        },
-        line: {
-            color: "#4F46E5", // Updated line color
-        },
-        xAxis: {
-            line: null,
-            label: {
-                style: { fill: "#8c8c8c", fontSize: 12 },
-            },
-        },
-        yAxis: {
-            min: 0,
-            max: 100,
-            tickCount: 4,
-            label: {
-                style: { fill: "#8c8c8c", fontSize: 12 },
-            },
-        },
-        legend: false,
-    };
+const AIProductInsightsCard: React.FC<{
+    chartData?: any;
+    focusText: string;
+}> = ({ chartData, focusText }) => {
+    
 
     return (
         <StyledCard>
@@ -113,7 +87,28 @@ const AIProductInsightsCard: React.FC<{ config: any, focusText: string }> = ({ c
 
             {/* Radar Chart to Show AI Analysis */}
             <div style={{ width: "100%", marginTop: 16 }}>
-                <Radar {...config} />
+                <RadarChart width={300} height={200} data={chartData}>
+                    {" "}
+                    {/* Adjusted width and height */}
+                    <PolarGrid />
+                    <PolarAngleAxis
+                        dataKey="aspect"
+                        label={{ fontSize: 10, fill: "#4F46E5" }} // Smaller font size for aspect labels
+                    />
+                    <PolarRadiusAxis
+                        label={{ fontSize: 10, fill: "#4F46E5" }} // Smaller font size for radius labels
+                    />
+                    <Radar
+                        name="User Feedback"
+                        dataKey="value"
+                        stroke="#4F46E5"
+                        fill="none"
+                        fillOpacity={0.6}
+                        // You can also add `point` to customize the size if needed
+                        
+                    />
+                    <Tooltip />
+                </RadarChart>
             </div>
 
             {/* Actionable Insights Button */}
